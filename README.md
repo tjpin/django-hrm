@@ -1,14 +1,7 @@
-## 📝 Table of Contents
 
-- [About](#about)
-- [Getting Started](#getting_started)
-- [Deployment](#deployment)
-- [Usage](#usage)
-- [Built Using](#built_using)
-- [TODO](../TODO.md)
-- [Contributing](../CONTRIBUTING.md)
-- [Authors](#authors)
-- [Acknowledgments](#acknowledgement)
+# ♻️ Django HR Management
+
+![Alt text](/django-hrm.png "Django HRM")
 
 ## ♻️️ About Django-HRM
 This's a simple hr management system created as a side project writen in python Django. Feel free to experiment and add additional features if you like.
