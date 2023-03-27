@@ -22,43 +22,43 @@ These instructions will get you a copy of the project up and running on your loc
 
 A step by step series of examples that tell you how to get a development env running.
 
-+ 1. Clone repository
++ Clone repository
 
 ```
-$ git clone https://github.com/tjpin/django-hrm.git
+git clone https://github.com/tjpin/django-hrm.git
 ```
 
-+ 2. Create a virtual enviroment
++ Create a virtual enviroment
 
 
 ```
-$ python -m venv <venv-name>.
+python -m venv <venv-name>.
 ```
 
-+ 3. Activate virtual enviroment.
++ Activate virtual enviroment.
 
 git bash windows
 ```
-$ source <venv-name>/Scripts/activate
+source <venv-name>/Scripts/activate
 ```
 cmd windows
 ```
-$ source <venv-name>\Scripts\activate
+source <venv-name>\Scripts\activate
 ```
 POSIX
 ```
-$ source <venv-name>/bin/activate
+source <venv-name>/bin/activate
 ```
 #### Run project.
 ```
-$ cd django-hrm
-$ python -m pip install -r requirements.txt
-$ python manage.py makemigrations
-$ python manage.py migrate
+cd django-hrm
+python -m pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
 ```
 #### Start server
 ```
-$ python manage.py runserver
+python manage.py runserver
 ```
 ##### Important Note.
 ..................
@@ -73,16 +73,16 @@ $ python manage.py runserver
 ## 🔧 Running the tests 
 
 ```
-$ python manage.py test
+python manage.py test
 ```
 or specific app
 ```
-$ python manage.py test src.<app>
+python manage.py test src.<app>
 ```
 
 ### Example: Test staff app
 ```
-$ python manage.py test src.staff
+python manage.py test src.staff
 ```
 
 ## ⛏️ Technologies used
