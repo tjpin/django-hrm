@@ -25,7 +25,7 @@ git clone https://github.com/tjpin/django-hrm.git
 
 
 ```
-python -m venv <venv-name>.
+python -m venv <venv-name>
 ```
 
 + Activate virtual enviroment.
@@ -45,8 +45,14 @@ source <venv-name>/bin/activate
 #### Run project.
 ```
 cd django-hrm
+```
+```
 python -m pip install -r requirements.txt
+```
+```
 python manage.py makemigrations
+```
+```
 python manage.py migrate
 ```
 #### Start server
