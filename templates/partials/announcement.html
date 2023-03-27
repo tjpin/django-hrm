@@ -1,0 +1,32 @@
+{% load static %}
+
+{% block modal_title %} <h3 class="w-full py-2 px-2 text-sm text-mainCyan font-medium">Add Announcement</h3> {% endblock %}
+{% block add_modal %} 
+    <form id="announcement-form" action="" method="post" class="w-full h-full" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <br>
+        <div class="w-full h-12 flex justify-between items-center">
+            <button type="reset" class="w-fit px-4 h-9 rounded bg-red-500 text-sm text-white">Reset</button>
+            <button type="submit" class="w-fit px-4 h-9 rounded bg-green-500 text-sm text-white">Send</button>
+        </div>
+    </form>
+{% endblock %}
+
+<script>
+    $("#announcement-form").on('submit', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'post',
+            url: location.href + 'add-announcement/',
+            data: $("#announcement-form").serialize(),
+            success: function(res){
+                $("#announcement-form").trigger('reset');
+            },
+            error: function(e){
+                console.log(e)
+            }
+        })
+    })
+</script>
+

@@ -1,0 +1,103 @@
+{% load static %}
+{% load humanize %}
+
+<link rel="stylesheet" href="{% static 'css/src/style.css' %}">
+<style> @page { size: auto;  margin: 0mm; } </style>
+
+
+<div class="w-full flex justify-end items-center h-12 px-[50px]">
+    <button id="print-payslip" class="h-8 w-9 border rounded-sm">
+        <i class="fa-solid fa-print"></i>
+    </button>
+</div>
+
+<div id="payslip" class="grid grid-cols-1 gap-2 px-[80px] py-[15px] overflow-y-auto scrollbar-none">
+    <div class="spacer h-20"></div>
+    <div class="flex justify-between items-center border h-[150px] w-full px-2 py-2">
+        {% if system_settings.company_logo %}
+            <img src="{{ system_settings.company_logo.url }}" alt="" class="h-full w-auto">
+        {% else %}
+        {% endif %}
+        <div class="flex flex-col items-right gap-[4px]">
+            <h3 class="px-3 text-lg font-medium text-cyan-500">{{ system_settings.company_name }}</h3>
+            <h3 class="px-3 text-sm font-light">{{ system_settings.company_address }}</h3>
+            <h3 class="px-3 text-sm font-light">{{ system_settings.company_zip }}</h3>
+            <h3 class="px-3 text-sm font-light">{{ system_settings.company_email }}</h3>
+            <h3 class="px-3 text-sm font-light">{{ system_settings.company_mobile_number }}</h3>
+        </div>
+    </div>
+    <br>
+    <div class="border w-full h-full px-2 py-2 rounded-sm flex flex-col gap-2">
+        <span class="h-10 w-full flex justify-between items-center">
+            <h3 class="py-2 px-2 underline text-start font-light text-[18px] w-full">{{ payroll.month }} Payslip</h3>
+            <h3 class="py-2 px-2 underline text-end font-light text-[18px] w-full">{{ staff.staff_number }} - {{ staff.full_name }}</h3>
+        </span>
+
+        <hr>
+        <span class="w-full flex justify-between items-center">
+            <h3 class="text-sm font-normal">Payment Date:</h3>
+            <h3 class="text-sm font-bold">{{ payroll.payment_date }}</h3>
+        </span>
+        <span class="w-full flex justify-between items-center">
+            <h3 class="text-sm font-normal">Basic Salary:</h3>
+            <h3 class="text-sm font-bold">{{ payroll.basic_salary | intcomma }}</h3>
+        </span>
+        <span class="w-full flex justify-between items-center">
+            <h3 class="text-sm font-normal">Food Allowance:</h3>
+            <h3 class="text-sm font-bold">{{ payroll.food_allowance | intcomma }}</h3>
+        </span>
+        <span class="w-full flex justify-between items-center">
+            <h3 class="text-sm font-normal">Medical Allowance:</h3>
+            <h3 class="text-sm font-bold">{{ payroll.health_allowance | intcomma }}</h3>
+        </span>
+        <span class="w-full flex justify-between items-center">
+            <h3 class="text-sm font-normal">House Allowance:</h3>
+            <h3 class="text-sm font-bold">{{ payroll.house_allowance | intcomma }}</h3>
+        </span>
+        <span class="w-full flex justify-between items-center">
+            <h3 class="text-sm font-normal">Other Allowance:</h3>
+            <h3 class="text-sm font-bold">{{ payroll.other_allowance | intcomma }}</h3>
+        </span>
+        <span class="w-full flex justify-between items-center">
+            <h3 class="text-sm font-normal">Overtime:</h3>
+            <h3 class="text-sm font-bold">{{ payroll.overtime | intcomma }}</h3>
+        </span>
+        <span class="w-full flex justify-between items-center">
+            <h3 class="text-sm font-normal">Deductions:</h3>
+            <h3 class="text-sm font-bold">{{ payroll.deductions | intcomma }}</h3>
+        </span>
+        <hr>
+        <span class="w-full flex justify-between items-center">
+            <h3 class="text-lg font-normal">Gross Salary:</h3>
+            <h3 class="text-lg font-bold">{{ system_settings.currency}}.{{ payroll.gross_salary | intcomma }}</h3>
+        </span>
+        <hr>
+        <div class="spacer h-[100px]"></div>
+        <span class="w-full flex justify-between items-center px-2">
+            <h3 class="text-sm font-normal underline">Approved By:</h3>
+            <h3 class="text-sm font-normal underline">Approved By:</h3>
+            <h3 class="text-sm font-normal underline">Staff Signature and Date:</h3>
+        </span>
+        <div class="flex h-16 justify-between items-center">
+            <span class="h-[2px] w-44 bg-zinc-500 border"></span>
+            <span class="h-[2px] w-44 bg-zinc-500 border"></span>
+            <span class="h-[2px] w-44 bg-zinc-500 border"></span>
+        </div>
+        <br>
+    </div>
+    <br>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="{% static 'js/fa.js' %}"></script>
+<script src="{% static 'js/printThis.js' %}"></script>
+
+<script>
+    //document.getElementById("print-payslip").addEventListener('click', () => {
+    //    $("#payslip").printThis();
+    //})
+    $("#print-payslip").click(function(){
+        $("#payslip").printThis();
+    })
+    
+</script>

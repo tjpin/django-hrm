@@ -1,0 +1,37 @@
+<div class="h-full w-full overflow-x-auto">
+    <table class="auto w-full whitespace-nowrap">
+        <thead class="w-full border">
+            <tr class="h-12 bg-hg">
+                <th class="text-sm font-medium text-left px-2">Date</th>
+                <th class="text-sm font-medium text-left px-2">Basic Salary</th>
+                <th class="text-sm font-medium text-left px-2">Food Allowance</th>
+                <th class="text-sm font-medium text-left px-2">House Allowance</th>
+                <th class="text-sm font-medium text-left px-2">Transport Allowance</th>
+                <th class="text-sm font-medium text-left px-2">Medical Allowance</th>
+                <th class="text-sm font-medium text-left px-2">Other Allowance</th>
+                <th class="text-sm font-medium text-left px-2">Ovetime</th>
+                <th class="text-sm font-medium text-left px-2">Dedictions</th>
+                <th class="text-sm font-medium text-left px-2">Gross Salary</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pay in staff.payroll %}
+                <tr class="w-full even:bg-gray-50 hover:bg-hg h-11 cursor-pointer border">
+                    <td class="text-sm text-left px-2">
+                        <a href="{% url 'staff-payroll' pay.pk %}" class="text-sm text-blue-500" target="_blank">{{ pay.payment_date }}</a>
+                    </td>
+                    <td class="text-sm text-left px-2">{{ pay.basic_salary }}</td>
+                    <td class="text-sm text-left px-2">{{ pay.food_allowance }}</td>
+                    <td class="text-sm text-left px-2">{{ pay.house_allowance }}</td>
+                    <td class="text-sm text-left px-2">{{ pay.transport_allowance }}</td>
+                    <td class="text-sm text-left px-2">{{ pay.health_allowance }}</td>
+                    <td class="text-sm text-left px-2">{{ pay.other_allowance }}</td>
+                    <td class="text-sm text-left px-2">{{ pay.overtime }}</td>
+                    <td class="text-sm text-left px-2">{{ pay.deductions }}</td>
+                    <td class="text-sm text-left px-2">{{ pay.gross_salary }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>   
+</div>
+

@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/src/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/attendance.css' %}">
+
+    <title>HRM | {% block title %} {% endblock %}</title>
+</head>
+
+<body id="body-content" class="relative">
+    {% include "base/navbar.html" %}
+    
+    <div id="addmodal" class="hidden">
+        <div class="flex w-full h-full justify-center">
+            <div class="w-[90%] md:w-[60%] h-[70%] bg-white overflow-y-auto">
+                <div class="flex justify-between items-center w-full py-2">
+                    <button id="addmodal-close" class="h-9 w-9"><i class="fa-solid fa-xmark text-red-500"></i></button>
+                    {% block modal_title %} {% endblock %}
+                </div>
+                <div id="dynamic-modal" class="">{% block add_modal %} {% endblock %}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- //////////////////// Main Body Section ////////////////////////// -->
+    <section class="h-full w-full relative mt-12 py-2 px-2">
+        {% include "widgets/settings.html" %}
+        {% include "widgets/chats.html" %}
+
+        <div id="department-list" class="fixed hidden left-1 top-12 bg-white border overflow-y-auto
+                rounded shadow h-auto max-h-[80%] w-[40%] md:w-[350px] px-2 py-2">
+            <div id="departments-view" class="w-full h-fit grid grid-cols-1 gap-2">
+
+            </div>
+        </div>
+
+        <span id="chart-button" class="fixed h-[45px] w-[45px] rounded-full shadow-lg bg-white
+                border bottom-5 right-2 flex items-center justify-center cursor-pointer">
+            <i class="fa-solid fa-comment text-mainCyan text-2xl"></i>
+        </span>
+        {% block content %}
+
+        {% endblock %}
+    </section>
+
+    {% block scripts %} {% endblock %}
+
+    <div id="loader" class="w-full h-full fixed bg-mainCyan">
+        <div class="spinner h-24 w-24"></div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/fa.js' %}"></script>
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+    <script src="{% static 'js/printThis.js' %}"></script>
+
+</body>
+</html>

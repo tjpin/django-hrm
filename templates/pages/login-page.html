@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/src/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}" />
+    <title>HRM | Login</title>
+</head>
+<body class="h-full w-full fixed top-0 left-0">
+    <div class="relative w-full h-full">
+        <img src="{% static 'images/bg-tri-blue.png' %}" alt="" class="w-full h-full object-fill">
+        <div class="absolute top-0 left-0 h-full w-full bg-transparent flex flex-col justify-center items-center">
+            <h3 class="text-xl font-medium text-cyan-500 py-2">Login</h3>
+            <form method="post" action="{% url 'login' %}" class="shadow px-3 flex flex-col gap-3 justify-center rounded w-[400px] h-[350px] bg-white border" autocomplete="off">
+                {% csrf_token %}
+                <label for="email" class="text-sm text-textMain">username or email</label>
+                <input type="email" name="email" id="email" class="border w-full h-11 rounded-xl px-4 outline-slate-400" required>
+                <label for="password" class="text-sm text-textMain">password</label>
+                <input type="password" name="password" id="password" class="border w-full h-11 rounded-xl px-4 outline-slate-400" required>
+                <span class="h-14 w-full flex items-center justify-between">
+                    <input type="submit" value="Login" id="" class="w-24 h-10 bg-cyan-500 hover:bg-cyan-600 cursor-pointer text-white text-sm rounded-xl">
+                    <button type="button" class="text-sm text-cyan-600 hover:underline">reset password</button>
+                </span>
+                {% if messages %}
+                {% for msg in messages %}
+                    <label for="" class="py-2 text-sm text-red-500">{{ msg }}</label>
+                {% endfor %}
+                {% endif %}
+            </form>
+        
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#email").focus();
+        })
+    </script>
+</body>
+</html>

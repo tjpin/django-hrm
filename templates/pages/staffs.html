@@ -1,0 +1,120 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %} staffs {% endblock %}
+
+{% block content %}
+
+<form class="w-full flex justify-end items-center gap-2 px-2 h-12 bg-white">
+    <button type="button" onclick="$('#staff-table').printThis()" class="bg-textMain hover:bg-gray-500 text-white px-2 h-6 rounded text-sm">print</button>
+    <input type="search" name="q" id="q" class="w-40 h-8 border rounded-sm px-2" placeholder="search staff...">
+    <a href="/staffs/"><i class="fa-solid fa-search text-lg text-mainText"></i></a>
+    <span class="w-[1px] h-full bg-primary"></span>
+    <a href="{% url 'new' %}"><span class="px-2 h-8 hover:bg-primary hover:text-white flex items-center justify-center text-sm rounded">Add Staff</span></a>
+</form>
+
+<!-- list of staffs -->
+<div class="overflow-x-auto scrollbar-none">
+    <table id="staff-table" class="auto w-full px-2 border rounded-sm whitespace-nowrap">
+        <thead>
+            <tr class="h-8 w-full cursor-pointer bg-hg">
+                <th class="text-sm text-textMain text-start font-medium px-2">Staff Number</th>
+                <th class="text-sm text-textMain text-start font-medium px-2">Full Name</th>
+                <th class="text-sm text-textMain text-start font-medium px-2">Mobile No.</th>
+                <th class="text-sm text-textMain text-start font-medium px-2">Email</th>
+                <th class="text-sm text-textMain text-start font-medium px-2">Joining Date</th>
+                <th class="text-sm text-textMain text-start font-medium px-2">Date of Birth</th>
+                <th class="text-sm text-textMain text-start font-medium px-2">Position</th>
+                <th class="text-sm text-textMain text-start font-medium px-2">Grade</th>
+                <th class="text-sm text-textMain text-start font-medium px-2">Department</th>
+                <th class="text-sm text-textMain text-start font-medium px-2">Status</th>
+                <!-- <th class="text-sm text-textMain text-start font-medium px-2">Actions</th> -->
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for staff in staffs%}
+            <tr hx-get="{% url 'staff-data' staff.pk %}" hx-target="#cnt" hx-trigger="click"
+             hx-swap="beforeend" id="staff-row" class="h-[40px] text-sm odd:bg-gray-50 hover:bg-gray-100 cursor-pointer w-full">
+                <td class="text-sm text-start text-textMain px-2">{{ staff.staff_number }}</td>
+                <td class="text-sm text-start text-textMain px-2">
+                    <span class="flex items-center w-full h-full gap-2">
+                        <span class="flex items-center justify-center w-[38px] h-[38px] rounded-full gap-2">
+                            {% if  staff.picture %}
+                                <img src="{{ staff.picture.url }}" alt="" class="w-[38px] h-[38px] rounded-full">
+                            {% else %}
+                            <div></div>
+                            {% endif %}
+                        </span>
+                        
+                        {{ staff.full_name }}</td>
+                    </span>
+                <td class="text-sm text-start text-textMain px-2">{{ staff.mobile_number }}</td>
+                <td class="text-sm text-start text-textMain px-2">{{ staff.email }}</td>
+                <td class="text-sm text-start text-textMain px-2">{{ staff.doj }}</td>
+                <td class="text-sm text-start text-textMain px-2">{{ staff.dob }}</td>
+                <td class="text-sm text-start text-textMain px-2">{{ staff.position }}</td>
+                <td class="text-sm text-start text-textMain px-2">{{ staff.grade }}</td>
+                <td class="text-sm text-start text-textMain px-2">{{ staff.department }}</td>
+                {% if staff.status == 'Active' %}
+                    <td class="text-sm text-start text-mg font-medium px-2">{{ staff.status }}</td>
+                {% else %}
+                    <td class="text-sm text-start text-textMain px-2">{{ staff.status }}</td>
+                {% endif %}
+                {% comment %}
+                <td>
+                    <span class="flex items-center justify-center gap-2">
+                        <a href="{% url 'update' staff.pk %}"><i class="fa-solid fa-pen text-xs cursor-pointer text-gray-500"></i></a>
+                        <a href="{% url 'delete' staff.pk %}"><i class="fa-solid fa-trash text-xs cursor-pointer text-red-500"></i></a>
+                    </span>
+                </td>
+                {% endcomment %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<div id="dialog" class="dialog h-screen w-screen hidden flex-col fixed top-0 left-0 z-30 justify-center items-center" 
+    style="background: black; background-color:rgba(0,0,0,0.4);">
+    <div class="h-[85%] w-[90%] md:w-4/5 bg-white px-2 py-2 flex flex-col overflow-y-auto border rounded-sm shadow relative">
+        <div class="w-12 h-12 flex gap-3 fixed top-[60px] right-[10%] z-10">
+            <span id="cd" class="text-lg text-red-500 flex justify-center items-center cursor-pointer rounded-full" style="min-width:20px; max-width:20px; min-height:20px;">
+                <i class="fa-solid fa-xmark text-center"></i>
+            </span>
+        </div>
+        <div id="cnt" class="w-full h-full flex flex-col gap-2"></div>
+    </div>
+</div>
+
+    {% block scripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'js/htmx.min.js' %}"></script>
+        <script src="{% static 'js/app.js' %}" defer></script>
+        <script>
+            var staffRows = document.querySelectorAll("#staff-row");
+            
+            staffRows.forEach((row, i) => {
+                row.addEventListener('mousedown', () => {
+                    setTimeout(() => document.querySelector("#dialog").classList.add("dialog-open"), 500);
+                })
+            });
+
+            $("#cd").click(function(){
+                document.querySelector(".dialog").classList.remove("dialog-open");
+                document.getElementById("cnt").innerHTML = "";
+                });
+                $(document).keyup(function(e){
+                    if(e.key === "Escape"){
+                        document.querySelector(".dialog").classList.remove("dialog-open");
+                        document.getElementById("cnt").innerHTML = "";
+                    }
+            });
+            
+        </script>
+    {% endblock %}
+
+
+{% endblock %}
+

@@ -1,0 +1,156 @@
+:root {
+    --border-color: #d0d0d0;
+    --text-color: #636b76;
+    --main-blue: #056381;
+}
+
+label {
+    font-size: 14px;
+    color: #636b76;
+}
+input[type=text] {
+    height: 36px;
+    width: 100%;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    padding: 0 10px;
+}
+input[type=text]:focus {
+    outline: 1px solid var(--main-blue);
+}
+
+#new-logo {
+    display: none;
+} 
+
+/* ************************** */
+#company_logo-clear_id {
+    display: none;
+}
+#db-logo > a {
+    display: none;
+}
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+:root {
+    --border-color: #c7c9c8;
+    --label-color: #888d8a;
+    --border-focus-color: #37679a;
+}
+
+form {
+    padding: 10px;
+}
+label {
+    font-size: 12px;
+    color: var(--label-color);
+}
+form input:not(checkbox), select, #pic-upload {
+    height: 32px;
+    width: 100%;
+    padding: 0px 10px;
+    border-radius: 3px;
+    outline: none;
+    border: 1px solid var(--border-color);
+}
+
+form input:focus, select:focus  {
+    outline: 1px solid var(--border-focus-color); 
+}
+#id_gender {
+    height: 12px;
+    width: 12px;
+}
+#id_gender > div label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#id_gender > div label input {
+    outline: none;
+}
+
+#id_picture {
+    display: none;
+}
+#pic-upload label {
+    display: none;
+}
+#pic-upload h3 {
+    display: none;
+}
+
+#picture-clear_id { display: none;}
+
+#pic-upload {
+    position: relative;
+    height: 35px;
+    align-items: center;
+}
+#id_bio {resize: none;}
+#id_bio:focus {
+    outline: 1px solid var(--border-focus-color);
+}
+/* ------------------------------- */
+#id_files {
+    display: none;
+}
+#upld {
+    filter: contrast(5%);
+}
+.upload-area {
+    min-height: 90px;
+    min-width: 90px;
+    border: 1px dotted var(--border-color);
+}
+
+#id_trainees, #id_target {
+    width: 100%;
+    min-height: 90px;
+    border: 1px solid var(--border-color);
+}
+
+/* ------------------------------ */
+#resume {
+    display: none;
+}
+
+#resume-label {
+    cursor: pointer;
+}
+
+#files-clear_id {
+    display: none;
+}
+#staff-files-upload a, #staff-files-upload label {
+    display: none;
+}
+#staff-files-upload::after {
+    content: "";
+}
+
+/* ------------------------------------ */
+
+
+form input[type=checkbox] {
+    width:20px;
+    height:20px;
+    border-radius: 50%;
+}
+
+form input[type=checkbox]:checked {
+    width:20px;
+    height:20px;
+    border-radius: 50%;
+    color: white;
+    accent-color: rgb(9, 255, 9);
+}
+
+#id_company_logo {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+}

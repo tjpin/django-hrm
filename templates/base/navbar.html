@@ -1,0 +1,128 @@
+{% load static %}
+
+<div class="navbar fixed h-12 w-full z-10 flex justify-between px-2 items-center border-b top-0 right-0 bg-white">
+    <div class="logo w-fit  whitespace-nowrap h-full flex items-center justify-left text-mainCyan font-medium cursor-pointer">
+        {% if system_settings.use_name == True %}
+            <a href="/" class="w-fit whitespace-nowrap">{{ system_settings.company_name }}</a>
+        {% else %}
+            {% if not system_settings.company_logo %}
+                <a href="/" class="w-fit whitespace-nowrap">{{ system_settings.company_name }}</a>
+            {% else %}
+                <img src="{{ system_settings.company_logo.url }}" alt="" class="h-12 w-auto">
+            {% endif %}
+        {% endif %}
+
+    </div>
+    <ul id="navbar-ul" class="h-12 w-full hidden md:flex justify-end gap-0 items-center px-2">
+        {% if request.user.is_superuser %}
+            <li id="navlist" class="flex py-3 md:py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
+                text-[16px] md:text-sm hover:bg-cyan-500 w-full md:w-fit hover:text-white cursor-pointer relative">
+                Administration
+                <span id="nav-dropdown" class="w-fit hidden h-auto absolute left-0 top-9 py-2 text-sm bg-white">
+                    <ul class="flex flex-col w-full items-left border rounded shadow-sm px-2 py-2">
+                        <a href="{% url 'payroll' %}">
+                            <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">Payrol</li>
+                        </a>
+                        <li class="h-8 w-fulls text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">Attendance</li>
+                    </ul>
+                </span>
+            </li>
+            <li id="navlist" class="flex py-3 md:py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
+                text-[16px] md:text-sm hover:bg-cyan-500 w-full md:w-fit hover:text-white cursor-pointer relative">
+                Organisation
+                <span id="nav-dropdown" class="w-fit hidden h-auto absolute left-0 top-9 py-2 bg-white">
+                    <ul class="flex flex-col w-full items-left border rounded shadow-sm px-2 py-2">
+                        <a href="/staffs/">
+                            <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">
+                                Staffs
+                            </li>
+                        </a>
+                        <a href="/documents/">
+                            <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">Records</li>
+                        </a>
+                    </ul>
+                </span>
+            </li>
+            <li id="navlist" class="flex py-3 md:py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
+                text-[16px] md:text-sm hover:bg-cyan-500 w-full md:w-fit hover:text-white cursor-pointer relative">
+                Departments
+                <span id="nav-dropdown" class="w-fit hidden h-auto absolute left-0 top-9 py-2 bg-white">
+                    <ul id="depts-ul" class="flex flex-col w-full items-left border rounded shadow-sm px-2 py-2">
+                        {% for department in departments %}
+                            <li hx-get="{% url 'department-staffs' department.id %}" hx-target="#departments-view" hx-trigger="click" hx-swap="innerHTML"
+                                class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">
+                                {{ department }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </span>
+            </li>
+            <a href="/recruitment/">
+                <li id="navlist" class="flex py-3 md:py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
+                    text-[16px] md:text-sm hover:bg-cyan-500 w-full md:w-fit hover:text-white cursor-pointer relative">
+                    Recruitment
+                    <!-- <span id="nav-dropdown" class="w-fit hidden h-auto absolute left-0 top-9 py-2 bg-white">
+                        <ul class="flex flex-col w-full items-left border rounded shadow-sm px-2 py-2">
+                            <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">Applications</li>
+                            <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">
+                                <a href="/career/">Vacancies</a>
+                            </li>
+                            <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">Recruits</li>
+                        </ul>
+                    </span> -->
+                </li>
+            </a>
+            <li id="" class="flex py-2 px-2 rounded-sm items-center justify-start gap-2
+                text-[16px] md:text-sm bg-cyan-500 w-full md:w-fit text-white cursor-pointer relative">
+                <img src="{% static 'images/default.png' %}" alt="" class="h-9 w-9 rounded-full object-cover">
+                {{ request.user }}
+                <button id="open-settings" class="h-8 w-8 rounded-full outline-none text-center">
+                    <i class="fa-solid fa-gear text-mainText text-[14px] grayscale"></i>
+                </button>
+            </li>
+        {% else %}
+            <li id="navlist" class="flex py-3 md:py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
+                text-[16px] md:text-sm hover:bg-cyan-500 w-full md:w-fit hover:text-white cursor-pointer relative">
+                Organisation
+                <span id="nav-dropdown" class="w-fit hidden h-auto absolute left-0 top-9 py-2 bg-white">
+                    <ul class="flex flex-col w-full items-left border rounded shadow-sm px-2 py-2">
+                        <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">
+                            <a href="/staffs/">Staffs</a>
+                        </li>
+                        <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">Records</li>
+                    </ul>
+                </span>
+            </li>
+            <li id="navlist" class="flex py-3 md:py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
+                text-[16px] md:text-sm hover:bg-cyan-500 w-full md:w-fit hover:text-white cursor-pointer relative">
+                Departments
+                <span id="nav-dropdown" class="w-fit hidden h-auto absolute left-0 top-9 py-2 bg-white">
+                    <ul class="flex flex-col w-full items-left border rounded shadow-sm px-2 py-2">
+                        {% for department in departments %}
+                            <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">
+                                <a href="/">{{ department }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </span>
+            </li>
+            <li id="" class="flex py-2 px-2 rounded-sm items-center justify-start gap-2
+                text-[16px] md:text-sm bg-cyan-500 w-full md:w-fit text-white cursor-pointer relative">
+                <img src="{% static 'images/default.png' %}" alt="" class="h-9 w-9 rounded-full object-cover">
+                {{ request.user }}
+                {% if request.user.is_superuser %}
+                    <button id="open-settings" class="h-8 w-8 rounded-full outline-none text-center">
+                        <i class="fa-solid fa-gear text-mainText text-[14px] grayscale"></i>
+                    </button>
+                {% else %}
+                    <div></div>
+                {% endif %}
+            </li>
+        {% endif %}
+    </ul>
+
+    <div class="menubar invisible flex flex-col w-7 items-center h-7 gap-1 cursor-pointer absolute right-2 top-4">
+        <i class="fa-solid fa-bars text-lg text-mainCyan"></i>
+    </div>
+</div>
+

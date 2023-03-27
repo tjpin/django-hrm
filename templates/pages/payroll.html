@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="w-full h-full flex flex-col gap-2 px-2 py-2">
+        <form method="get" class="w-full h-12 flex justify-end gap-2 items-start">
+            <input type="search" name="qs" id="qs" class="w-56 h-10 border rounded-sm px-2 text-mainText">
+            <button class="h-9 w-9">
+                <i class="fa-solid fa-search text-mainText"></i>
+            </button>
+        </form>
+        <div class="w-full h-full overflow-y-auto">
+            <table class="auto whitespace-nowrap w-full px-2 py-2">
+                <thead class="w-full border">
+                    <tr class="h-12 bg-hg">
+                        <th class="text-sm font-medium text-left px-2">Staff</th>
+                        <th class="text-sm font-medium text-left px-2">Month</th>
+                        <th class="text-sm font-medium text-left px-2">Basic Salary</th>
+                        <th class="text-sm font-medium text-left px-2">Food Allowance</th>
+                        <th class="text-sm font-medium text-left px-2">House Allowance</th>
+                        <th class="text-sm font-medium text-left px-2">Transport Allowance</th>
+                        <th class="text-sm font-medium text-left px-2">Medical Allowance</th>
+                        <th class="text-sm font-medium text-left px-2">Other Allowance</th>
+                        <th class="text-sm font-medium text-left px-2">Ovetime</th>
+                        <th class="text-sm font-medium text-left px-2">Dedictions</th>
+                        <th class="text-sm font-medium text-left px-2">Gross Salary</th>
+                        <th class="text-sm font-medium text-left px-2">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payrol in payrolls %}
+                        <tr class="w-full even:bg-gray-50 hover:bg-hg h-11 cursor-pointer border">
+                            <td class="text-sm text-left px-2">
+                                <a href="{% url 'staff-data' payrol.staff.pk %}" class="text-sm text-blue-500" target="_blank">{{ payrol.staff }}</a>
+                            </td>
+                            <td class="text-sm text-left px-2">{{ payrol.month }}</td>
+                            <td class="text-sm text-left px-2">{{ payrol.basic_salary }}</td>
+                            <td class="text-sm text-left px-2">{{ payrol.food_allowance }}</td>
+                            <td class="text-sm text-left px-2">{{ payrol.house_allowance }}</td>
+                            <td class="text-sm text-left px-2">{{ payrol.transport_allowance }}</td>
+                            <td class="text-sm text-left px-2">{{ payrol.health_allowance }}</td>
+                            <td class="text-sm text-left px-2">{{ payrol.other_allowance }}</td>
+                            <td class="text-sm text-left px-2">{{ payrol.overtime }}</td>
+                            <td class="text-sm text-left px-2">{{ payrol.deductions }}</td>
+                            <td class="text-sm text-left px-2">{{ payrol.gross_salary }}</td>
+                            {% if payrol.status == "Paid" %}
+                                <td class="text-sm text-left px-2 text-green-500">{{ payrol.status }}</td>
+                            {% elif payrol.status == "Held" %}
+                                <td class="text-sm text-left px-2 text-blue-600">{{ payrol.status }}</td>
+                            {% else  %}
+                                <td class="text-sm text-left px-2 text-red-600">{{ payrol.status }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

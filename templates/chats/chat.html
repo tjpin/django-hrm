@@ -1,0 +1,90 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/src/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    <title>{% block chat_title%} Chat {% endblock %}</title>
+</head>
+<body>
+    <div class="flex gap-2 w-full h-full">
+        <!-- //////////// Left Box - Chat list -->
+        <div class="chatlist flex flex-col px-2 py-2 gap-2 h-full w-2/6 border-r">
+            <span class="h-11 bg-cyan-500 w-full flex justify-between px-2 items-center rounded-sm">
+                <h3 class="text-white font-medium text-sm">All Chats</h3>
+                <button class="w-8 h-8 bg-cyan-500">
+                    <i class="fa-solid fa-xmark text-white"></i>
+                </button>
+            </span>
+            <!-- search -->
+            <form class="w-full h-14 flex border rounded px-2 py-2">
+                <input type="search" name="search-chat" id="search-chat" class="w-full h-10 border rounded-sm px-2 text-sm" placeholder="Search here...">
+                <button type="submit" class="w-9 h-9 bg-white">
+                    <i class="fa-solid fa-search text-mainText"></i>
+                </button>
+            </form>
+            
+            <!-- chat card -->
+            <span class="h-14 bg-white border-b shadow w-full rounded px-2 py-2 flex gap-3 cursor-pointer overflow-hidden hover:bg-gray-50">
+                <img src="{% static 'images/face.jpeg' %}" alt="" class="w-11 h-11 rounded-full object-cover">
+                <span class="h-full w-full flex flex-col justify-center">
+                    <span class="flex justify-between items-center w-full h-1/2">
+                        <h3 class="text-mainText font-medium px-2">Megan Kush</h3>
+                        <h3 class="text-mainText text-xs font-normal px-2">Today</h3>
+                    </span>
+                    <p class="text-gray-500 font-normal text-sm px-2 h-1/2 overflow-hidden">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem ut eius provident vitae et eveniet, facilis harum inventore placeat quam?
+                    </p>
+                </span>
+            </span>
+            <span class="h-14 bg-white border-b shadow w-full rounded px-2 py-2 flex gap-3 cursor-pointer overflow-hidden hover:bg-gray-50">
+                <img src="{% static 'images/face.jpeg' %}" alt="" class="w-11 h-11 rounded-full object-cover">
+                <span class="h-full w-full flex flex-col justify-center">
+                    <span class="flex justify-between items-center w-full h-1/2">
+                        <h3 class="text-mainText font-medium px-2">Megan Kush</h3>
+                        <h3 class="text-mainText text-xs font-normal px-2">Today</h3>
+                    </span>
+                    <p class="text-gray-500 font-normal text-sm px-2 h-1/2 overflow-hidden">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem ut eius provident vitae et eveniet, facilis harum inventore placeat quam?
+                    </p>
+                </span>
+            </span>
+        </div>
+
+        <!-- //////////// Right Box - Chat Body -->
+        <div class="chatbox flex flex-col px-2 py-2 h-full w-4/6 items-start border rounded">
+            <span class="h-11 bg-cyan-500 w-full flex gap-3 px-2 items-center rounded-sm">
+                <button class="w-8 h-8 bg-cyan-500">
+                    <i class="fa-solid fa-bars text-white"></i>
+                </button>
+                <h3 class="text-white font-medium text-sm">Chat with {{ request.user }}</h3>
+            </span>
+            <div id="chat-body" class="flex flex-col gap-2 px-2 py-2 h-full w-full items-start"> <!-- items-[] - Allignment -->
+                <span id="chat-message-card" class="w-fit h-fit flex gap-2 items-start">
+                    <img src="{% static 'images/face.jpeg' %}" alt="" class="w-11 h-11 rounded-full object-cover">
+                    <span class="chat-card flex flex-col items-end gap-2 border shadow px-2 py-2 w-fit">
+                        <p class="text-mainText text-sm">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, ratione!
+                        </p>
+                        <h4 class="text-xs py-1 px-2 rounded bg-hg w-fit">Today</h4>
+                    </span>
+                </span>
+            </div>
+            <form id="msg-input" class="w-4/6 min-h-12 z-10 bg-white flex items-center gap-3">
+                <textarea name="msg" id="msg" cols="15" rows="2" class="border rounded w-full max-h-20 px-2 py-2 shadow scrollbar-none resize-none" wrap="hard">
+                </textarea>
+                <!-- <input type="text" name="msg" id="msg" class="w-full h-12 border px-3" multiple> -->
+                <button id="send-msg" class="h-10 bg-cyan-500 text-white rounded px-2 text-sm"> send </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="{% static 'js/chat.js' %}"></script>
+    <script src="{% static 'js/fa.js' %}"></script>
+</body>
+</html>

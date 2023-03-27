@@ -1,0 +1,143 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/src/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+<div class="h-full w-full flex flex-col gap-2">
+    <div class="h-12 w-full flex border-b items-center justify-start py-2 gap-2">
+        <button id="staff-detail-tab" class="h-9 w-fit px-2 border-r rounded-sm text-sm">Basic Info</button>
+        <button id="staff-detail-tab" class="h-9 w-fit px-2 border-r rounded-sm text-sm">Company info</button>
+        <button id="staff-detail-tab" class="h-9 w-fit px-2 border-r rounded-sm text-sm">Payroll</button>
+    </div>
+
+    <!-- ----------------- Personal Info -->
+    <div class="staff-detail-panel flex-col md:flex-row w-full h-fit md:h-full hidden px-2 py-2">
+        <div class="pic w-full md:w-2/6 auto flex flex-col py-2 relative">
+            {% if staff.picture %}
+                <img src="{{ staff.picture.url }}" alt="" class="w-3/4 h-auto object-cover rounded">
+            {% else %}
+                <span></span>
+            {% endif %}
+            <div class="w-full py-2 flex gap-2">
+                {% if request.user.is_superuser %}
+                    <a href="{% url 'update' staff.pk %}"><button class="w-20 h-6 hover:bg-blue-600 bg-blue-500 text-white text-sm px-2 rounded">Update</button></a>
+                    <a href="{% url 'delete' staff.pk %}"><button class="w-20 h-6 hover:bg-red-600 bg-red-500 text-white text-sm px-2 rounded">Delete</button></a>
+                {% else %}
+                    <div></div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="pic w-full md:w-4/6 flex flex-col gap-2 px-2 h-fit">
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Staff Id:</h3>
+                <h3 class="text-sm textMain">{{ staff.staff_number }}</h3>
+            </span>
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">First Name:</h3>
+                <h3 class="text-sm textMain">{{ staff.first_name }}</h3>
+            </span>
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Middle Name:</h3>
+                <h3 class="text-sm textMain">{{ staff.middle_name }}</h3>
+            </span>
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Last Name:</h3>
+                <h3 class="text-sm textMain">{{ staff.last_name }}</h3>
+            </span>
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Date of birth:</h3>
+                <h3 class="text-sm textMain">{{ staff.dob }}</h3>
+            </span>
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Joining Date:</h3>
+                <h3 class="text-sm textMain">{{ staff.doj }}</h3>
+            </span>
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Email:</h3>
+                <h3 class="text-sm textMain">{{ staff.email }}</h3>
+            </span>
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Mobile Number:</h3>
+                <h3 class="text-sm textMain">{{ staff.mobile_number }}</h3>
+            </span>
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Position:</h3>
+                <h3 class="text-sm textMain">{{ staff.position }}</h3>
+            </span>
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Departmemt:</h3>
+                <h3 class="text-sm textMain">{{ staff.department }}</h3>
+            </span>
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Grade:</h3>
+                <h3 class="text-sm textMain">{{ staff.grade }}</h3>
+            </span>
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Reporting to:</h3>
+                <h3 class="text-sm textMain">{{ staff.hod }}</h3>
+            </span>
+
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Education:</h3>
+                <h3 class="text-sm textMain">{{ staff.education }}</h3>
+            </span>
+            <hr>
+            <span class="flex justify-between h-8">
+                <h3 class="text-sm textMain">Gender:</h3>
+                <h3 class="text-sm textMain">{{ staff.gender }}</h3>
+            </span>
+            <hr>
+            <span class="flex flex-col h-auto gap-2">
+                <h3 class="text-sm textMain font-medium">Bio:</h3>
+                <p class="text-sm textMain">{{ staff.bio }}</p>
+            </span>
+        </div>
+    </div>
+
+    <!-- ----------------- Company Info -->
+    <div class="staff-detail-panel w-full h-full hidden px-2">
+        Company Info
+    </div>
+
+    <!-- ----------------- Payroll Info -->
+    <div class="staff-detail-panel w-full h-full hidden px-2">
+        {% include 'widgets/staff-payroll.html' %}
+    </div>
+
+</div>
+
+<script>
+    var staffDetailTabs = document.querySelectorAll("#staff-detail-tab");
+    var staffDetailPanels = document.querySelectorAll(".staff-detail-panel");
+
+    function removeDetailDisplay(){
+        staffDetailTabs.forEach((tab, i) => {
+            staffDetailTabs[i].classList.remove("staff-detail-tab-active");
+            staffDetailPanels[i].classList.remove("staff-detail-panel-active");
+        })
+    }
+
+    removeDetailDisplay();
+    staffDetailTabs.forEach((tab, i) => {
+        staffDetailTabs[0].classList.add("staff-detail-tab-active");
+        staffDetailPanels[0].classList.add("staff-detail-panel-active");
+        tab.addEventListener('click', () => {
+            removeDetailDisplay();
+            staffDetailTabs[i].classList.add("staff-detail-tab-active");
+            staffDetailPanels[i].classList.add("staff-detail-panel-active");
+        })
+    })
+</script>

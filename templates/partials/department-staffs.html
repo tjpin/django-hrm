@@ -1,0 +1,27 @@
+
+<span class="w-full h-12 border-b flex justify-between items-center">
+    <h3 class="textsm text-mainText font-medium">{{ department }}</h3>
+    <button id="hide-departments" class="w-9 h-9">
+        <i class="fa-solid fa-xmark text-red-500"></i>
+    </button>
+</span>
+<table class="auto w-full">
+    <tbody>
+        {% for staff in department_staffs %}
+            <tr class="w-full h-9 hover:bg-gray-50 even:bg-gra-100 flex items-center justify-between">
+                <td class="text-left text-sm px-2 flex items-center justify-between w-full">
+                    <h4>{{ staff.full_name }}</h4>
+                    <h4>{{ staff.position }}</h4>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $("#hide-departments").click(function(){
+        $("#departments-view").empty();
+        $("#department-list").fadeOut(300);
+    })
+</script>
+

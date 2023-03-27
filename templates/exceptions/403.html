@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %} Access Denied {% endblock %}
+
+{% block content %}
+    <div class="relative">
+        <div class="h-screen w-screen fixed top-0 right-0 flex flex-col gap-3 justify-center items-center">
+            <img src="{% static 'images/error.gif' %}" alt="" class="w-[200px] md:w-[300px] h-[200px] md:h-[300px]">
+            <h1 class="text-cyan-500 text-center text-lg md:text-3xl">
+                403 - Access Denied. Please request access from system admin.
+            </h1>
+        </div>
+    </div>
+{% endblock %}

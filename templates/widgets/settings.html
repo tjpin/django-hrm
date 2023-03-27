@@ -1,0 +1,61 @@
+{% load static %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+<!-- settings modal -->
+<div class="settings-menu fixed shadow w-[70%] md:w-[300px] hidden h-fit max-h-[80%] overflow-y-auto right-2 top-14 border bg-white scrollbar-none">
+    <div class="grid grid-cols-1 gap-2 px-2 py-2">
+        <span class="flex items-center justify-between w-full h-9 border-b">
+            <h3 class="text-sm font-medium text-mainCyan">Settings</h3>
+            <i id="close-settings" class="fa-solid fa-chevron-right text-mainText text-sm"></i>
+        </span>
+        <div class="flex items-center justify-between gap-3 w-full h-11">
+            <a href="/logout/" class="flex items-center justify-center w-1/2 h-11 rounded border hover:text-white hover:bg-red-500">
+                Sign out
+            </a>
+            <a href="/refresh/" class="flex items-center justify-center w-1/2 h-11 rounded border bg-cyan-500 text-white hover:bg-red-500">
+                Refresh
+            </a>
+        </div>
+        <form action="{% url 'settings' %}" method="post" class="flex flex-col gap-2" autocapitalize="on" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="id_company_name">Company Name</label>
+            {{ settings_form.company_name }}
+
+            <label for="id_company_logo">Company Logo</label>
+            <div class="flex justify-between gap-[4px] items-center w-full h-[80px] border rounded px-2">
+                {% if settings_form.company_logo == "" %}
+                    <img id="company-logo" src="{{ system_settings.company_logo.url }}" alt="" class="min-h-[80px] max-w-[50%]">
+                {% else %}
+                    <img id="company-logo2" src="{% static 'images/logo.png' %}" alt="" class="min-h-[80px] max-w-[50%]">
+                {% endif %}
+                <label class="custom-file-upload border h-11 w-full rounded-sm cursor-pointer flex items-center justify-center">
+                    <input id="new-logo" type="file" name="id_company_logo"/>
+                    <i class="fa fa-cloud-upload px-2"></i>
+                    Upload
+                </label>
+            </div>
+
+            <span class="flex justify-between items-center w-full">
+                <label for="use_name">Use Logo as Header</label>
+                {{ settings_form.use_name }}
+            </span>
+            <label for="id_company_email">Company Email</label>
+                {{ settings_form.company_email }}
+            <label for="id_company_address">Company Address</label>
+                {{ settings_form.company_address }}
+            <label for="id_company_zip">Company Zip Code</label>
+                {{ settings_form.company_zip }}
+            <label for="id_company_mobile_number">Company Mobile No.</label>
+                {{ settings_form.company_mobile_number }}
+            <label for="id_company_mobile_number">currency</label>
+                {{ settings_form.currency }}
+            <br>
+            <input type="submit" value="Save" class="h-10 rounded bg-mainCyan text-white text-sm">
+        </form>
+    </div>
+</div>
+
+{% block scripts %}
+    
+{% endblock %}

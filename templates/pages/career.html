@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/src/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <title>Job Board</title>
+</head>
+<body>
+    <div class="h-12 w-full px-2 gap-3 justify-between flex items-center bg-cyan-500 text-white">
+        {% if user.is_authenticated %}
+            <a href="/">home</a>
+        {% endif %}
+        Available Vacancies
+    </div>
+
+    {% if careers %}
+    <div class="w-full h-auto px-2 py-2 grid grid-cols-1 md:flex gap-4">
+        <div class="joblist w-full md:1/2 flex flex-col gap-2 border px-2 py-2">
+            {% for job in careers %}
+            <div class="jobcard h-auto w-full px-2 py-2 border shadow flex flex-col rounded">
+                <p class="text-sm text-textMain py-2">Vacancy</p>
+                <a hx-target="#job-detail" hx-trigger="click" hx-get="{% url 'vacancy' job.id %}" hx-swap="innerHHTML" class="cursor-pointer">
+                    <h4 class="text-cyan-500 font-medium hover:underline">
+                        {{ job.vacancy.position }}
+                    </h4>
+                </a>
+                <p class="text-sm text-textMain py-2">Description</p>
+                <p>{{ job.description | truncatewords:20}}</p>
+                <span class="flex justify-between items-center py-2">
+                    <p class="text-sm text-textMain">Vacancies: {{ job.number_of_vacancy }}</p>
+                    <p class="text-xs text-textMain">Application deadline: {{ job.application_deadline }}</p>
+                </span>
+            </div>
+            {% endfor %}
+        </div>
+        <div id="job-detail" class="job-detail w-full md:1/2 h-auto overflow-y-auto flex flex-col gap-2 border px-2 py-2"></div>
+    </div>
+    {% else %}
+        <div class="w-full h-full flex justify-center py-10 items-center">
+            <h3>No available vacancy. Please check again later.</h3>
+        </div>
+    {% endif %}
+
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+    <script src="{% static 'js/ajax.js' %}"></script>
+    <script src="{% static 'js/fa.js' %}"></script>
+</body>
+</html>
+

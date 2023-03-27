@@ -1,0 +1,36 @@
+{% comment %}
+
+{% extends 'base/base.html' %} {% load static %}
+<!-- ----------------------------------------- -->
+
+{% block content %}
+<div class="calendar-wrapper flex justify-center items-center h-full w-full">
+	<div id="calendar" class="calendar flex flex-col gap-2 w-[500px] h-[400px] border shadow rounded">
+		<!-- headers -->
+        <div class="calendar-header flex justify-between items-center h-11 border-b">
+			<h3 id="current-date" class="text-lg text-white text-center px-4"></h3>
+			<div id="calendar-actions" class="flex gap-2 px-2 py-2">
+				<span id="prev" class="date-ction h-8 w-8 flex justify-center items-center shadow rounded-full cursor-pointer">
+					<i class="fa-solid fa-chevron-left"></i>
+				</span>
+				<span id="next" class="date-ction h-8 w-8 flex justify-center items-center shadow rounded-full cursor-pointer">
+					<i class="fa-solid fa-chevron-right"></i>
+				</span>
+			</div>
+		</div> 
+		<!-- weekdays -->
+		<div class="w-full h-8 flex border-b">
+			<span class="weekdays text-sm font-medium">Sun</span>
+			<span class="weekdays text-sm font-medium">Mon</span>
+			<span class="weekdays text-sm font-medium">Tue</span>
+			<span class="weekdays text-sm font-medium">Wed</span>
+			<span class="weekdays text-sm font-medium">Thur</span>
+			<span class="weekdays text-sm font-medium">Fri</span>
+			<span class="weekdays text-sm font-medium">Sat</span>
+		</div>
+		<!-- days -->
+		<div id="days" class="days flex flex-wrap px-2 py-2 relative"></div>
+	</div>
+</div>
+{% endblock %}
+{% endcomment %}

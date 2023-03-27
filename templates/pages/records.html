@@ -1,0 +1,55 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %} Records {% endblock %}
+
+{% block content %}
+    <div class="flex flex-col md:flex-row gap-3 w-full h-screen">
+        <div class="doc-list flex flex-col gap-2 border rounded w-full md:w-1/2 h-fit px-2 py-2">
+            <div class="w-full h-12 flex justify-between items-center">
+                <button class="group w-9 h-9 hover:bg-cyan-500 rounded">
+                    <i class="group-hover:text-white fa-solid fa-add text-mainText"></i>
+                </button>
+                <form class="flex w-full justify-end items-center">
+                    <input type="search" name="sf" id="sf" class="px-3 h-10 border text-sm w-52" placeholder="search here...">
+                    <button class="w-9 h-9">
+                        <i class="fa-solid fa-search text-mainCyan"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="w-full h-full overflow-x-auto">
+                <table class="auto w-full whitespace-nowrap">
+                    <thead class="w-full">
+                        <tr class="bg-cyan-500 h-10 w-full text-white">
+                            <th class="text-start px-2 text-sm font-medium">Reference No.</th>
+                            <th class="text-start px-2 text-sm font-medium">Document</th>
+                            <th class="text-start px-2 text-sm font-medium">Date uploaded</th>
+                            <th class="text-start px-2 text-sm font-medium">Uploaded By</th>
+                        </tr>
+                    </thead>
+                    <tbody class="w-full">
+                        {% for record in records %}
+                            <tr class="h-9 even:bg-gray-50 hover:bg-gray-100 w-full">
+                                <td class="px-2 text-sm text-left text-blue-600 font-medium cursor-pointer">
+                                    <a href="" 
+                                        hx-get="{% url 'document-details' record.id %}"
+                                        hx-target="#doc-info",
+                                        hx-swap="innerHTML",
+                                        hx-trigger="click"
+                                        >{{ record.reference_number }}</a>
+                                </td>
+                                <td class="px-2 text-sm text-left">{{ record.filename }}</td>
+                                <td class="px-2 text-sm text-left">{{ record.date_uploaded }}</td>
+                                <td class="px-2 text-sm text-left">{{ record.uploaded_by }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Document Detail View -->
+        <div id="doc-info" class="doc-info border rounded flex flex-col gap-2 w-full md:w-1/2 h-full px-2 py-2">
+        </div>
+    </div>
+{% endblock %}
+

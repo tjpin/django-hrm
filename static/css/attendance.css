@@ -1,0 +1,54 @@
+:root {
+  --dark-teal: #0089ab;
+}
+
+.calendar-header {
+  background-color: var(--dark-teal);
+}
+.calendar-header i {
+  color: white;
+}
+
+.weekdays {
+  width: calc(500px / 7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.days{
+  gap: 5px;
+}
+.days span {
+  width: calc(450px / 7);
+  height: calc(185 / 6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  position: relative;
+  /* background-color: #f0b3b3; */
+}
+
+.days span::before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+.days span:hover {
+  color: white;
+}
+.days span:hover::before{
+  background-color: var(--dark-teal);
+}  
+
+.active-date {
+  background-color: var(--dark-teal);
+  color: white;
+}

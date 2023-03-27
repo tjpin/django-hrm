@@ -1,0 +1,20 @@
+Django==4.1.7
+django-admin-interface==0.24.2
+django-browser-reload==1.6.0
+django-cleanup==7.0.0
+djangorestframework==3.14.0
+django-rest-framework==0.1.0
+django_debug_toolbar==3.8.1
+django_extensions==3.2.1
+python-dateutil==2.8.2
+Pillow==9.4.0
+hiredis==2.2.2
+psycopg2-binary==2.9.5
+python-dotenv==1.0.0
+redis==4.5.1
+whitenoise==6.4.0
+
+# extra module for trminal colors - works on windows
+ansicolors==1.1.8
+
+

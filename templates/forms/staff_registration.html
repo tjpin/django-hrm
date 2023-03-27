@@ -1,0 +1,80 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %} Staff Registration {% endblock %}
+
+{% block content %} 
+<form action="{% url 'new' %}" method="post" autocomplete="off" autocapitalize="on" enctype="multipart/form-data" class="fm w-full h-auto border flex flex-col gap-4">
+    {% csrf_token %}
+    <div class="dv w-full h-full grid grid-cols-1 md:flex gap-4 px-2 py-2">
+        <div class="grid grid-cols-1 md:flex flex-col w-full">
+            <label for="">First Name</label>
+            {{ form.first_name }}
+            <label for="">Middle Name</label>
+            {{ form.middle_name }}
+            <label for="">Last Name</label>
+            {{ form.last_name }}
+        </div>
+        <div class="grid grid-cols-1 md:flex flex-col w-full">
+            <label for="">Phone No.</label>
+            {{ form.mobile_number }}
+            <label for="">Staff Id</label>
+            {{ form.staff_number }}
+            <label for="">Picture</label>
+            <label for="id_picture" id="pic-upload" class="items-center flex justify-between px-2 w-full cursor-pointer">
+                {{ form.picture }}
+                <h3 class="text-sm w-full text-left">upload picture</h3>
+                <h3 class="staff-selected-pic text-sm w-full text-end">No file</h3>
+            </label>
+        </div>
+        <div class="grid grid-cols-1 md:flex flex-col w-full">
+            <label for="">Date of Birth</label>
+            {{ form.dob }}
+            <label for="">Joining Date</label>
+            {{ form.doj }}
+            <label for="">Email</label>
+            {{ form.email }}
+        </div>
+    </div>
+    <div class="grid grid-cols-1 md:flex gap-2 w-full">
+        <span class="w-full flex flex-col">
+            <label for="">Bio / Note</label>
+            {{ form.bio }}
+        </span>
+        <div class="grid grid-cols-1 md:flex flex-col w-44 h-auto px-2">
+            <label for="">Gender</label>
+            {{ form.gender }}
+        </div>
+        <!-- upload multiple files -->
+        <span class="w-full h-auto flex flex-col">
+            <label for="">Documents</label>
+            <div class="upload-area px-4 py-4 rounded flex items-center justify-between gap-2">
+                <label for="id_files" id="staff-files-upload">
+                    {{ form.files }}
+                    <img id="upld" src="{% static 'images/file.png' %}" alt="upload files" class=" object-cover w-16 h-16">
+                </label>
+                <ul class="staff-selected-files w-4/6">
+                    <h3 class="text-sm text-gray-500">No Files Selected</h3>
+                </ul>
+            </div>
+        </span>
+    </div>
+    <div class="w-full h-full flex gap-4 px-2 py-2">
+        <div class="grid grid-cols-1 md:flex flex-col w-full">
+            <label for="">Department</label>
+            {{ form.department }}
+            <label for="">position</label>
+            {{ form.position }}
+        </div>
+        <div class="grid grid-cols-1 md:flex flex-col w-full">
+            <label for="">Education</label>
+            {{ form.education }}
+            <label for="">Grade</label>
+            {{ form.grade }}
+        </div>
+        
+    </div>
+    <input type="submit" value="Add staff" class="h-10 text-cyan-500 font-medium border text-sm w-36 rounded">
+</form>
+
+{% endblock %}

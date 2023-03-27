@@ -1,0 +1,78 @@
+{% load static %}
+
+
+<div class="flex flex-col px-2 py-2 gap-2 relative h-full">
+    <h2 class="text-xl text-cyan-600 font-medium">{{ vacancy.vacancy.position }}</h2>
+    <p class="text-sm">vacancies: {{ vacancy.number_of_vacancy }}</p>
+    <p class="text-sm">Date posted: {{ vacancy.date_posted }}</p>
+    <p class="text-sm">Application deadline: {{ vacancy.application_deadline }}</p>
+    <hr>
+    <p class="text-sm text-black font-medium underline">Job Description</p>
+    <p>{{ vacancy.description }}</p>
+    <br>
+
+    <!-- application modal -->
+    <div class="app-modal hidden h-full w-full flex-col bg-white absolute z-20">
+        
+        <div class=" h-full w-full py-2 overflow-y-auto grid grid-cols-1 scrollbar-thin">
+            <form id="job-form" method="post" action="{% url 'application' vacancy.pk %}" class="flex flex-col gap-2 px-2 py-2 border h-fit w-full" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <label for="fname" class="text-sm text-textMain">First Name</label>
+                <input type="text" name="fname" id="fname" class="w-full h-10 px-2 border rounded-sm" required>
+
+                <label for="mname" class="text-sm text-textMain">Middle Name</label>
+                <input type="text" name="mname" id="mname" class="w-full h-10 px-2 border rounded-sm" required>
+
+                <label for="lname" class="text-sm text-textMain">Last Name</label>
+                <input type="text" name="lname" id="lname" class="w-full h-10 px-2 border rounded-sm" required>
+
+                <label for="email" class="text-sm text-textMain">Email</label>
+                <input type="email" name="aemail" id="a-email" class="w-full h-10 px-2 border rounded-sm" required>
+
+                <label for="mnumber" class="text-sm text-textMain">Mobile No.</label>
+                <input type="number" name="mnumber" id="mnumber" class="w-full h-10 px-2 border rounded-sm" required>
+
+                <label for="" class="text-sm text-textMain">Resume</label>
+                <label id="resume-label" for="resume" class="text-sm text-textMain h-10 w-full px-2 flex items-center justify-between border rounded-sm">
+                    <span class="flex items-center gap-2 w-2/6">
+                        <i class="fa-solid fa-file"></i>
+                        upload resume
+                    </span>
+                    <p class="uploaded-resume text-xs w-4/6 justify-end flex">no file selected</p>
+                    <input name="cv" id="resume" type="file" class="w-full h-11 rounded-sm border" accept=".pdf" required>
+                </label>
+                <label for="message" class="text-sm text-textMain">Add message</label>
+                <textarea name="cv-message" id="cv-message" cols="30" rows="5" class="border rounded px-2 py-2" placeholder="optional"></textarea>
+                <label for="" class="text-sm text-textMain">Applying for</label>
+                <input type="text" name="position" id="" class="w-full h-10 px-2 border rounded-sm outline-none" placeholder="{{ vacancy.vacancy.position }}" readonly>
+                <!-- <span class="h-14 flex items-center">
+                </span> -->
+                <div class="flex w-full py-2 items-center justify-between">
+                    <button id="ca" class="w-20 h-8 rounded bg-red-500 text-white">cancel</button>
+                    <button type="submit" class="w-20 h-8 rounded bg-green-500 text-white">Apply</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <button id="app-btn" class="bg-blue-500 hover:bg-blue-600 text-white rounded text-sm outline-none px-2 h-7 w-20">Appy</button>
+
+</div>
+<script>
+    $("#app-btn").click(function(){
+        $(".app-modal").show(500);
+    });
+    $("#ca").click(function(){
+        $(".app-modal").hide(50);
+        $("#job-form").trigger('reset');
+    });
+
+    document.getElementById('resume').addEventListener('change', (e) => {
+        var file = e.target.files[0];
+        document.querySelector('.uploaded-resume').innerHTML = file.name;
+    })
+</script>
+
+
+

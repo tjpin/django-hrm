@@ -1,0 +1,223 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title%} Dashboard {% endblock %}
+
+{% block content %}
+
+<div class="w-full h-full grid grid-cols-1 md:grid-cols-3 gap-2 px-2 py-2" style="background-color: rgb(241, 241, 241);"> 
+    <!-- Birtdays -->
+    <div class="card w-full h-56 px-1 py-1 flex flex-col gap-2 border rounded bg-white overflow-y-auto scrollbar-none">
+        <span class="w-full h-11 border-b bg-hg py-2 px-2 flex gap-2 items-center">
+            <i class="fa-solid fa-cake-candles text-mainCyan"></i>
+            <h3 class="text-sm font-medium text-mainCyan">Todays's Birthdays</h3>
+        </span>
+        {% if not birthdays %}
+            <h3 class="text-lg font-light text-center py-2"> No Birtday's Today </h3>
+        {% else %}
+            {% for bt in birthdays %}
+                <span class="w-full h-fit md:h-11 flex items-center px-2 gap-2 py-1 border-b hover:bg-gray-50">
+                    {% if bt.picture %}
+                        <img src="{{ bt.picture.url }}" alt="" class="h-10 w-10 rounded-full object-cover">
+                    {% else %}
+                        <img src="{% static 'images/default.png' %}" alt="" class="h-10 w-10 rounded-full object-cover">
+                    {% endif %}
+                    <span class="flex flex-col gap-0 justify-center">
+                        <h3 class="text-sm text-textMain">{{ bt.full_name }}</h3>
+                        <h3 class="text-sm text-gray-500">{{ bt.dob | date:"l j"}} - Happy Birthday</h3>
+                    </span>
+                </span>
+            {% endfor %}
+        {% endif %}
+        
+    </div>
+
+    <!--  New Joiners -->
+    <div class="card w-full h-56 px-1 py-1 flex flex-col gap-2 border rounded bg-white overflow-y-auto scrollbar-none">
+        <span class="w-full h-11 border-b bg-hg py-2 px-2 flex gap-2 items-center">
+            <i class="fa-solid fa-champagne-glasses text-mainCyan"></i>
+            <h3 class="text-sm font-medium text-mainCyan">New Joiners</h3>
+        </span>
+        {% if not recruits %}
+            <h3 class="text-lg font-light text-center py-2"> No Recruit </h3>
+        {% else %}
+            {% for recruit in recruits %}
+                <span class="w-full h-fit flex flex-col items-center px-2 gap-2 py-1 border">
+                    <span class="flex gap-0 justify-center">
+                        <img src="{% static 'images/default.png' %}" alt="" class="h-12 w-12 rounded-full object-cover">
+                    </span>
+                    <span class="flex flex-col gap-0 justify-center items-center">
+                        <h3 class="text-sm text-mainCyan">{{ recruit.full_name }}</h3>
+                        <h3 class="text-sm text-gray-500"><strong>{{ recruit.recruited_position }}</strong> {{ date_applied | date:"M d Y" }}</h3>
+                    </span>
+                </span>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <!-- On Leave  -->
+    <div class="card w-full h-56 px-1 py-1 flex flex-col gap-2 border rounded bg-white overflow-y-auto scrollbar-none">
+        <span class="w-full h-11 border-b bg-hg py-2 px-2 flex gap-2 items-center">
+            <i class="fa-solid fa-calendar text-mainCyan"></i>
+            <h3 class="text-sm font-medium text-mainCyan">Who is on leave</h3>
+        </span>
+        {% if not leaves %}
+            <h3 class="text-lg font-light text-center py-2"> No Leaves Taken </h3>
+        {% else %}
+            {% for leave in leaves %}
+                <span class="w-full h-fit md:h-11 flex items-center px-2 gap-2 py-1 border-b">
+                    <img src="{% static 'images/default.png' %}" alt="" class="h-10 w-10 rounded-full object-cover">
+                    <span class="flex flex-col gap-0 justify-center">
+                        <h3 class="text-sm text-textMain">{{ leave.staff.full_name }} - <strong class="text-mainCyan">{{ leave.leave_type }}</strong></h3>
+                        <h3 class="text-sm text-gray-500">{{ leave.start_date }} - {{ leave.end_date }}</h3>
+                    </span>
+                </span>
+            {% endfor %}
+        {% endif %}
+        
+    </div>
+
+    <!-- Trainings  -->
+    <div class="card w-full h-56 px-1 py-1 flex flex-col gap-2 border rounded bg-white overflow-y-auto scrollbar-none">
+        <span class="w-full h-11 border-b bg-hg py-2 px-2 flex justify-between gap-2 items-center">
+            <span class="flex gap-2 items-center w-full h-full">
+                <i class="fa-solid fa-chalkboard-user text-mainCyan"></i>
+                <h3 class="text-sm font-medium text-mainCyan">Upcomming Trainings</h3>
+            </span>
+            <button hx-get="/add-training/" hx-target="#dynamic-modal" hx-swap="beforeend" hx-trigger="click"
+                id="addmodal-open" class="group w-8 h-8 rounded-sm hover:bg-mainCyan">
+                <i class="fa-solid fa-add text-mainCyan group-hover:text-white"></i>
+            </button>
+        </span>
+        {% if not trainings %}
+            <h3 class="text-lg font-light text-center py-2"> No Training </h3>
+        {% else %}
+            {% for training in trainings %}
+                <div class="flex justify-between items-center px-2 border-b shadow">
+                    <span class="w-full h-fit md:h-11 flex flex-col gap-1">
+                        <h3 class="text-sm text-textMain">{{ training.training }}</strong></h3>
+                        <h3 class="text-sm text-gray-500">{{ training.date }} - {{ training.venue }}</h3>
+                    </span>
+                    <h3 class="text-xs text-gray-500 px-2 text-center">{{ training.trainees.count }}</h3>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+    </div>
+
+    <!-- Appointments  -->
+    <div class="card w-full h-56 px-1 py-1 flex flex-col gap-2 border rounded bg-white overflow-y-auto scrollbar-none">
+        <span class="w-full h-11 border-b bg-hg py-2 px-2 flex justify-between gap-2 items-center">
+            <span class="flex gap-2 items-center w-full h-full">
+                <i class="fa-regular fa-calendar-check text-mainCyan"></i>
+                <h3 class="text-sm font-medium text-mainCyan">Appointments</h3>
+            </span>
+            <button hx-get="/add-appointment/" hx-target="#dynamic-modal" hx-swap="beforeend" hx-trigger="click"
+                id="addmodal-open" class="group w-8 h-8 rounded-sm hover:bg-mainCyan">
+                <i class="fa-solid fa-add text-mainCyan group-hover:text-white"></i>
+            </button>
+        </span>
+        {% for appointment in appointments %}
+            <div class="flex flex-col gap-2 py-1 justify-between px-2 border-b shadow">
+                <span class="w-full flex flex-col gap-1">
+                    <h3 class="text-sm text-textMain">{{ appointment.appointment }}</strong></h3>
+                </span>
+                <span class="flex justify-between items-center">
+                    <h3 class="text-xs text-gray-500">{{ appointment.date.date }}</h3>
+                    <h3 class="text-xs text-gray-500">{{ appointment.date.time }}</h3>
+                </span>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Announcements  -->
+    <div class="card w-full h-56 px-1 py-1 flex flex-col gap-2 border rounded bg-white overflow-y-auto scrollbar-none">
+        <span class="w-full h-11 border-b bg-hg py-2 px-2 flex justify-between gap-2 items-center">
+            <span class="flex gap-2 items-center w-full h-full">
+                <i class="fa-solid fa-bullhorn text-mainCyan"></i>
+                <h3 class="text-sm font-medium text-mainCyan">Announcements</h3>
+            </span>
+            <button hx-get="/add-announcement/" hx-target="#dynamic-modal" hx-swap="beforeend" hx-trigger="click"
+                id="addmodal-open" class="group w-8 h-8 rounded-sm hover:bg-mainCyan">
+                <i class="fa-solid fa-add text-mainCyan group-hover:text-white"></i>
+            </button>
+        </span>
+        {% if not announcements %}
+            <h3 class="text-lg font-light text-center py-2"> No new Announcements </h3>
+        {% else %}
+            {% for announcement in announcements %}
+                <div class="flex justify-between items-center px-2 md:py-1 border-b shadow">
+                    <span class="w-[80%] h-fit md:h-11 flex flex-col gap-1">
+                        <h3 class="text-sm text-textMain">{{ announcement.sender }}</strong></h3>
+                        <h3 class="text-sm text-gray-500">{{ announcement.subject | truncatewords:4 }}</h3>
+                    </span>
+                    <h3 class="text-xs text-gray-500 px-2 text-center w-[20%]">{{ announcement.date_announced | date:"M d Y" }} </h3>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- ---------------------------------------- Department List  -->
+<!-- --------------------------------------------------------- -->
+<div class="w-full h-full grid grid-cols-1 md:flex gap-2 px-2 py-2" style="background-color: rgb(241, 241, 241);">
+    <div class="hr-team flex flex-col w-full md:w-4/6 h-auto px-2 py-2 bg-white overflow-x-auto">
+        <h3 class="text-sm font-medium text-mainCyan px-2 py-2">System Admins</h3>
+        <table class="auto w-full whitespace-nowrap">
+            <thead class="border">
+                <tr class="h-11 w-full">
+                    <th class="text-left text-sm font-medium px-2">Picture</th>
+                    <th class="text-left text-sm font-medium px-2">Full Name</th>
+                    <th class="text-left text-sm font-medium px-2">Mobile No.</th>
+                    <th class="text-left text-sm font-medium px-2">Email</th>
+                    <th class="text-left text-sm font-medium px-2">Joining Date</th>
+                    <th class="text-left text-sm font-medium px-2">Last Login</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in admins %}
+                    <tr class="w-full h-9 border">
+                        <td class="text-sm text-mainText px-2">
+                            {% if not admin.profile_picture %}
+                                <img src="{% static 'images/default.png' %}" alt="" class="h-8 w-8 rounded-full">
+                            {% else %}
+                                <img src="{{ admin.profile_picture.url }}" alt="" class="h-8 w-8 rounded-full">
+                            {% endif %}
+                        </td>
+                        <td class="text-sm text-mainText px-2">{{ admin.first_name }} {{ admin.last_name }}</td>
+                        <td class="text-sm text-mainText px-2">{{ admin.mobile_number }}</td>
+                        <td class="text-sm text-mainText px-2">{{ admin.email }}</td>
+                        <td class="text-sm text-mainText px-2">{{ admin.date_joined | date:"F d Y" }}</td>
+                        <td class="text-sm text-mainText px-2">
+                            {% if not admin.last_login %}
+                                -
+                            {% else %}
+                                {{ admin.last_login }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="depts flex flex-col gap-2 w-full md:w-2/6 h-fit bg-white px-2 py-2">
+        <h3 class="text-sm font-medium text-mainCyan px-2 py-2">Departments</h3>
+        <span class="flex justify-between px-2 py-2 hover:bg-hg shadow-sm rounded-sm">
+            <h3 class="text-sm text-textMain">HR Management</h3>
+            <span class="flex items-center gap-2">
+                <i class="fa-solid fa-users text-gray-500"></i>
+                <h3 class="text-sm text-textMain">10</h3>
+            </span>
+        </span>
+        <span class="flex justify-between px-2 py-2 hover:bg-hg shadow-sm rounded-sm">
+            <h3 class="text-sm text-textMain">Finance</h3>
+            <span class="flex items-center gap-2">
+                <i class="fa-solid fa-users text-gray-500"></i>
+                <h3 class="text-sm text-textMain">7</h3>
+            </span>
+        </span>
+    </div>
+</div>
+
+{% endblock %}
