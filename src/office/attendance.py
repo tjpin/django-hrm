@@ -27,7 +27,8 @@ class Attendance(models.Model):
     @property
     def hours_worked(self):
         if self.time_in is not None and self.time_out is not None:
-            return round(timedelta(hours=self.time_out.hour) - timedelta(hours=self.time_in.hour)) - 1 # minus 1hr for break time
+            return (timedelta(hours=self.time_out.hour-1) - timedelta(hours=self.time_in.hour))
+            # return round(timedelta(hours=self.time_out.hour) - timedelta(hours=self.time_in.hour)) - 1 # minus 1hr for break time
         return 0
 
     def __str__(self):

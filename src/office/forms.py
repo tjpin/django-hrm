@@ -2,6 +2,7 @@ from django import forms
 
 from .hrd import Training, Announcement
 from .models import Appointment
+from .attendance import Attendance
 
 
 class TrainingForm(forms.ModelForm):
@@ -23,3 +24,18 @@ class AppointmentForm(forms.ModelForm):
     class Meta:
         fields = "__all__"
         model = Appointment
+
+class AttendanceForm(forms.ModelForm):
+    date = forms.CharField(widget=forms.NumberInput(attrs={'class': 'input', 'type': 'date'}))
+    time_in = forms.CharField(widget=forms.NumberInput(attrs={'class': 'input', 'type': 'time'}))
+    break_time = forms.CharField(widget=forms.NumberInput(attrs={'class': 'input', 'type': 'time'}))
+    time_out = forms.CharField(widget=forms.NumberInput(attrs={'class': 'input', 'type': 'time'}))
+    # staff = forms.ModelChoiceField(
+    #     queryset=Attendance.objects.all(),
+    #     widget=forms.Select(attrs={'disabled': True})
+    # )
+
+    class Meta:
+        fields = "__all__"
+        model = Attendance
+

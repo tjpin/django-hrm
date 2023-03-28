@@ -1,15 +1,51 @@
-from django.shortcuts import HttpResponse
-from django.views.generic import DetailView, TemplateView, ListView
+from django.shortcuts import HttpResponse, render, reverse, HttpResponseRedirect
+from django.views.generic import DetailView, ListView
+from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
+from django.utils import timezone
 
 from .attendance import Attendance
 from .hrd import Payroll
+from .forms import AttendanceForm
 
-class AttendanceView(TemplateView):
-    queryset = Attendance.objects.all()
+class AttendanceView(ListView):
+    queryset = Attendance.objects.all().filter(date=timezone.now().date()).order_by('-date')
     template_name = 'pages/attendance.html'
-    object_name = 'attendance'
+    context_object_name = 'attendances'
+    
+    def get_queryset(self, **kwargs):
+        qs = self.request.GET.get('aq')
+        qdate = self.request.GET.get('dq')
 
+        if not qs and not qdate:
+            return self.queryset
+        if qdate:
+            queryset = Attendance.objects.filter(date=qdate).order_by('-date')
+            return queryset
+        if qs and qdate:
+            queryset = Attendance.objects.select_related('staff').filter(
+                Q(staff__first_name__icontains=qs) | Q(staff__last_name__icontains=qs) |
+                Q(staff__staff_number__icontains=qs) & Q(date__iexact=qdate)
+            ).order_by('-date')
+        if not qdate and qs is not None:
+            queryset = Attendance.objects.filter(
+                Q(staff__first_name__icontains=qs) | Q(staff__last_name__icontains=qs) |
+                Q(staff__staff_number__icontains=qs)
+            ).order_by('-date')
+            return queryset
+
+@csrf_exempt
+def update_attendance(request, pk):
+    obj = Attendance.objects.get(pk=pk)
+    form = AttendanceForm(request.POST or None, instance=obj)
+    if request.method == "POST":
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/office/')
+        else:
+            print()
+            print(form.errors)
+    return render(request, 'partials/attendance_update.html', {'form': form, 'atd': obj})
 
 class PayrollView(ListView):
     queryset = Payroll.objects.select_related('staff').order_by('-month')

@@ -59,11 +59,20 @@
     background: rgba(0, 0, 0, 0.2);
     justify-content: center;
     align-items: flex-start;
-    z-index: 60;
+    z-index: 20;
     top: 0;
     right: 0;
 }
-
+#att-update-modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 20;
+    top: 0;
+    right: 0;
+}
 /* --------- Staff Details --------- */
 
 .staff-detail-tab-active {

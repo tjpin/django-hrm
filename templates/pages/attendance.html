@@ -1,36 +1,68 @@
-{% comment %}
-
 {% extends 'base/base.html' %} {% load static %}
 <!-- ----------------------------------------- -->
 
 {% block content %}
-<div class="calendar-wrapper flex justify-center items-center h-full w-full">
-	<div id="calendar" class="calendar flex flex-col gap-2 w-[500px] h-[400px] border shadow rounded">
-		<!-- headers -->
-        <div class="calendar-header flex justify-between items-center h-11 border-b">
-			<h3 id="current-date" class="text-lg text-white text-center px-4"></h3>
-			<div id="calendar-actions" class="flex gap-2 px-2 py-2">
-				<span id="prev" class="date-ction h-8 w-8 flex justify-center items-center shadow rounded-full cursor-pointer">
-					<i class="fa-solid fa-chevron-left"></i>
-				</span>
-				<span id="next" class="date-ction h-8 w-8 flex justify-center items-center shadow rounded-full cursor-pointer">
-					<i class="fa-solid fa-chevron-right"></i>
-				</span>
-			</div>
-		</div> 
-		<!-- weekdays -->
-		<div class="w-full h-8 flex border-b">
-			<span class="weekdays text-sm font-medium">Sun</span>
-			<span class="weekdays text-sm font-medium">Mon</span>
-			<span class="weekdays text-sm font-medium">Tue</span>
-			<span class="weekdays text-sm font-medium">Wed</span>
-			<span class="weekdays text-sm font-medium">Thur</span>
-			<span class="weekdays text-sm font-medium">Fri</span>
-			<span class="weekdays text-sm font-medium">Sat</span>
-		</div>
-		<!-- days -->
-		<div id="days" class="days flex flex-wrap px-2 py-2 relative"></div>
-	</div>
+<!-- filters -->
+<form class="w-fill h-12 flex gap-3 justify-start items-center">
+	<input type="search" name="aq" id="aq" class="w-52 h-10 border px-3 text-sm" placeholder="search...">
+	<input type="date" name="dq" id="dq" class="w-52 h-10 border px-3 text-sm">
+	<button class="w-9 h-9">
+		<i class="fa-solid fa-search text-mainText"></i>
+	</button>
+</form>
+
+<!-- filtered content -->
+<div class="h-auto w-full px-2 overflow-x-auto relative">
+	<table class="aouto whitespace-nowrap w-full border">
+		<thead class="">
+			<tr class="w-full h-11">
+				<th class="text-sm font-medium px-2 border text-left">Staff</th>
+				<th class="text-sm font-medium px-2 border text-left">Staff No.</th>
+				<th class="text-sm font-medium px-2 border text-left">Date</th>
+				<th class="text-sm font-medium px-2 border text-left">Time In</th>
+				<th class="text-sm font-medium px-2 border text-left">Break Time</th>
+				<th class="text-sm font-medium px-2 border text-left">Time Out</th>
+				<th class="text-sm font-medium px-2 border text-left">Status</th>
+				<th class="text-sm font-medium px-2 border text-left">Hours Worked</th>
+				<th class="text-sm font-medium px-2 border text-center">Actions</th>
+			</tr>
+		</thead>
+		<tbody class="w-full">
+			{% for att in attendances %}
+				<tr class="w-full h-9 hover:bg-gray-100 even:bg-gray-50">
+					<td class="text-sm px-2 text-mainText">{{ att.staff.full_name }}</td>
+					<td class="text-sm px-2 text-mainText">{{ att.staff.staff_number }}</td>
+					<td class="text-sm px-2 text-mainText">{{ att.date }}</td>
+					<td class="text-sm px-2 text-mainText">{{ att.time_in }}</td>
+					<td class="text-sm px-2 text-mainText">{{ att.break_time }}</td>
+					<td class="text-sm px-2 text-mainText">{{ att.time_out }}</td>
+					<td class="text-sm px-2 text-mainText">{{ att.status }}</td>
+					<td class="text-sm px-2 text-mainText">{{ att.hours_worked }}</td>
+					<td class="text-sm text-mainText w-full h-9 flex gap-2 justify-center items-center">
+						<button  id="update-att-btn"
+							hx-get="{% url 'attendance-update' att.pk %}" 
+							hx-trigger="click"
+							hx-swap="inerHTML"
+							hx-target="#att-update"
+							class="w-full h-full flex justify-center gap-2 
+							items-center hover:bg-cyan-500 hover:text-white">
+							<i class="fa-solid fa-pen"></i>
+							Edit
+						</button>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	
 </div>
 {% endblock %}
-{% endcomment %}
+
+{% block scripts %}
+<script>
+	$("*#update-att-btn").click(function(){
+		$("#att-update-modal").fadeIn(100);
+	})
+</script>
+{% endblock %}

@@ -1,3 +1,8 @@
 from django.test import TestCase
 
-# Create your tests here.
+from .views import *
+
+class DashboardTest(TestCase):
+    
+    def test_authenticated_user(self):
+        self.assertTrue(self.client.user.is_authenticated, True)
