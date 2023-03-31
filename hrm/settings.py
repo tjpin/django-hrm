@@ -23,9 +23,10 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
-INTERNAL_IPS = ['localhost', '127.0.0.1', '0.0.0.0']
+INTERNAL_IPS = ['localhost', '127.0.0.1', 'pythonanywhere.com']
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
-X_FRAME_OPTIONS = 'ALLOW-FROM http://127.0.0.1:8000'
+X_FRAME_OPTIONS = 'ALLOW-FROM https://www.pythonanywhere.com'
+# X_FRAME_OPTIONS = 'ALLOW-FROM http://127.0.0.1:8000'
 
 # Application definition
 
