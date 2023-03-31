@@ -1,22 +1,27 @@
-from django.shortcuts import HttpResponse, render, reverse, HttpResponseRedirect
-from django.views.generic import DetailView, ListView
+from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.views.decorators.http import require_http_methods 
+from django.http import HttpResponse
+from django.views.generic import DetailView, ListView, FormView
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 from django.utils import timezone
+from django.contrib import messages
 
 from .attendance import Attendance
 from .hrd import Payroll
-from .forms import AttendanceForm
+from .forms import AttendanceForm, DataExportForm, PayrollForm
+from utils.data_export import AttendanceResource
+from utils.choice_helper import ExportChoices
 
-class AttendanceView(ListView):
+class AttendanceView(ListView, FormView):
     queryset = Attendance.objects.all().filter(date=timezone.now().date()).order_by('-date')
     template_name = 'pages/attendance.html'
     context_object_name = 'attendances'
+    form_class = DataExportForm
     
     def get_queryset(self, **kwargs):
         qs = self.request.GET.get('aq')
         qdate = self.request.GET.get('dq')
-
         if not qs and not qdate:
             return self.queryset
         if qdate:
@@ -33,6 +38,28 @@ class AttendanceView(ListView):
                 Q(staff__staff_number__icontains=qs)
             ).order_by('-date')
             return queryset
+    
+    def post(self, request, **kwargs):
+        now = timezone.now().date()
+        date = request.POST.get('date-selected')
+        if date:
+            qs = self.get_queryset().filter(date=date).order_by('-date')
+        else:
+            qs = self.get_queryset().filter(date=now).order_by('-date')
+        dataset = AttendanceResource().export(qs)
+        formats = request.POST.get('export_format')
+        if formats == ExportChoices.XLSX:
+            exp = dataset.xlsx
+        elif formats == ExportChoices.XLS:
+            exp = dataset.xls
+        elif formats == ExportChoices.CSV:
+            exp = dataset.csv
+        else:
+            exp = dataset.json
+        response = HttpResponse(exp, content_type='{}'.format(formats))
+        response['Content-Disposition'] = "attachment; filename={}.{}".format(now, formats)
+        messages.success(request, 'Data downloding...')
+        return response
 
 @csrf_exempt
 def update_attendance(request, pk):
@@ -63,3 +90,15 @@ class PayrollView(ListView):
             return filtered
         return self.queryset
 
+@require_http_methods(["GET", "POST"])
+def payroll_add(request):
+    form = PayrollForm()
+    if request.method == "POST":
+        form = PayrollForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('payroll')
+        else:
+            print(form.errors)
+            return render(request, 'partials/payrol-add.html', {'form': form})
+    return render(request, 'partials/payrol-add.html', {'form': form})

@@ -7,7 +7,8 @@
     <div class="flex flex-col md:flex-row gap-3 w-full h-screen">
         <div class="doc-list flex flex-col gap-2 border rounded w-full md:w-1/2 h-fit px-2 py-2">
             <div class="w-full h-12 flex justify-between items-center">
-                <button class="group w-9 h-9 hover:bg-cyan-500 rounded">
+                <button hx-get="{% url 'add-record' %}" hx-target="#dynamic-modal" hx-swap="beforeend" hx-trigger="click"
+                        id="addmodal-open" class="group w-9 h-9 hover:bg-cyan-500 rounded">
                     <i class="group-hover:text-white fa-solid fa-add text-mainText"></i>
                 </button>
                 <form class="flex w-full justify-end items-center">

@@ -1,7 +1,7 @@
 from django import forms
 
-from .hrd import Training, Announcement
-from .models import Appointment
+from .hrd import Training, Announcement, Payroll
+from .models import Appointment, ExportChoices, ExportModel
 from .attendance import Attendance
 
 
@@ -38,4 +38,20 @@ class AttendanceForm(forms.ModelForm):
     class Meta:
         fields = "__all__"
         model = Attendance
+
+class DataExportForm(forms.ModelForm):
+    export_format = forms.CharField(widget=forms.Select(choices=ExportChoices.choices))
+    date = forms.CharField(widget=forms.NumberInput(attrs={"class": "input", "type": "date"}))
+    class Meta:
+        fields = "__all__"
+        model = ExportModel
+
+
+class PayrollForm(forms.ModelForm):
+    pay_date = forms.CharField(widget=forms.NumberInput(attrs={"class": "input", "type": "date"}))
+
+    class Meta:
+        fields = "__all__"
+        model = Payroll
+
 

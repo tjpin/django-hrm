@@ -22,6 +22,8 @@ class StaffHome(AdminAccessAndLoginMixin, ListView):
     permission_required = 'staff.view_staff'
 
     def get_queryset(self):
+        print()
+        print(self.request.META)
         query = self.request.GET.get('q')
         if query:
             filtered = Staff.objects.filter(
@@ -31,7 +33,6 @@ class StaffHome(AdminAccessAndLoginMixin, ListView):
             )
             return filtered
         return self.queryset
-
 
 class CreateStaff(AdminAccessAndLoginMixin, FormView):
     model = Staff
@@ -52,12 +53,10 @@ class CreateStaff(AdminAccessAndLoginMixin, FormView):
             doc.save()
         form.save()
         return super().form_valid(form)
-    
 
     def form_invalid(self, form):
         print(form.errors)
         return super().form_invalid(form)
-
 
 class DeleteStaff(AdminAccessAndLoginMixin, DeleteView):
     model = Staff
@@ -86,17 +85,6 @@ class StaffUpdateView(AdminAccessAndLoginMixin, UpdateView):
     def get_success_url(self):
         return reverse('staffs')
 
-
-# @permission_required("staff.change_staff")
-# def update(request, pk):
-#     staff = Staff.objects.get(pk=pk)
-#     form = StaffRegistrationForm(request.POST or None, request.FILES or None, instance=staff)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('/staffs/')
-#     return render(request, 'forms/staff_update.html', {'form': form, 'staff': staff})
-
-
 def get_staffs(request):
     from office.models import Department
     staffs = Staff.objects.all()
@@ -111,5 +99,3 @@ def get_staffs(request):
 def staff_data(request, pk):
     staff = Staff.objects.get(pk=pk)
     return render(request, 'partials/staff-detail.html', {'staff': staff})
-
-

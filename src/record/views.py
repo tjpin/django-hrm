@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import FormView, ListView, DetailView
 
 from .forms import DocumentUploadForm, Document
@@ -11,30 +11,20 @@ class DocumentView(ListView):
     success_url = '/'
     template_name = 'pages/records.html'
     context_object_name = 'records'
-
+    
 def document_details(request, id):
     document = Document.objects.get(id=id)
     return render(request, 'partials/doc-details.html', {"document": document})
 
-# class DocumentView(FormView):
-#     form_class = DocumentUploadForm
-    # success_url = '/'
-    # template_name = 'pages/records.html'
+def add_record(request):
 
-#     def post(self, request):
-#         form_class = self.get_form_class()
-#         form = self.get_form(form_class)
-#         if form.is_valid():
-#             files = request.FILES.getlist('document')
-#             for index, file in enumerate(files):
-#                 doc = Document.objects.create(
-#                     uploaded_by=request.user, 
-#                     document=file, 
-#                     reference_number=generate_id(10)*(index+1))
-#                 doc.save()
-#             return redirect('documents')
-
-#         return redirect('documents')
-
-
+    form = DocumentUploadForm()
+    if request.method == 'POST':
+        form = DocumentUploadForm(request.POST or None, request.FILES or None)
+        files = request.FILES.getlist('document')
+        for file in files:
+            doc = Document.objects.create(uploaded_by=request.user, document=file, reference_number=generate_id(10))
+            doc.save()
+        return redirect('documents')
+    return render(request, 'partials/docfile.html', {"form": form})
 

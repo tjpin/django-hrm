@@ -12,11 +12,11 @@ class VacancyAdmin(admin.ModelAdmin):
 
 @admin.register(Application)
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'resume_name', 'position', 'date_applied', 'email', 'mobile_number']
+    list_display = ['full_name', 'resume_name', 'position', 'date', 'email', 'mobile_number']
 
 @admin.register(Recruit)
 class RecruitAdmin(admin.ModelAdmin):
-    list_display = ['first_name', 'last_name', 'mobile_number', 'date_recruited', 'position', 'current_status']
+    list_display = ['first_name', 'last_name', 'mobile_number', 'date', 'position', 'current_status']
 
     def current_status(self, obj):
         if obj.status == 'In Review':

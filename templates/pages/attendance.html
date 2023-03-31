@@ -2,12 +2,33 @@
 <!-- ----------------------------------------- -->
 
 {% block content %}
+<div id="download-modal" class="hidden justify-center items-center">
+	<div class="w-full h-full flex flex-col justify-start items-center py-7">
+		<span class="h-16"></span>
+		<div id="export-modal" class="flex w-[40%] h-auto py-2 bg-white rounded">
+			<form action="" method="post" class="w-full h-full flex flex-col gap-2">
+				{% csrf_token %}
+				{{ form.as_p }}
+				<div class="w-full h-12 flex items-center gap-5">
+					<button type="reset" id="close-export-modal" class="w-full h-9 rounded bg-red-500 text-white text-sm">Cancel</button>
+					<button type="submit" id="export-button" class="w-full h-9 rounded bg-green-500 text-white text-sm">Export</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
 <!-- filters -->
-<form class="w-fill h-12 flex gap-3 justify-start items-center">
-	<input type="search" name="aq" id="aq" class="w-52 h-10 border px-3 text-sm" placeholder="search...">
-	<input type="date" name="dq" id="dq" class="w-52 h-10 border px-3 text-sm">
+<form class="w-fill h-12 flex gap-2 justify-start items-center">
+	<input type="search" name="aq" id="aq" class=" w-44 h-10 border px-3 text-sm" placeholder="search...">
+	<input type="date" name="dq" id="dq" class="w-44 h-10 border px-3 text-sm">
 	<button class="w-9 h-9">
 		<i class="fa-solid fa-search text-mainText"></i>
+	</button>
+	<button id="export-excel" type="button" 
+			class="w-fit h-8 px-2 flex items-center justify-center gap-2 text-sm text-green-500">
+		<img src="{% static 'images/xlsx.png' %}" alt="" class="h-6 w-auto">
+		export
 	</button>
 </form>
 
@@ -54,8 +75,6 @@
 			{% endfor %}
 		</tbody>
 	</table>
-
-	
 </div>
 {% endblock %}
 
@@ -63,6 +82,16 @@
 <script>
 	$("*#update-att-btn").click(function(){
 		$("#att-update-modal").fadeIn(100);
+	});
+
+	$("#export-excel").click(function(){
+		$("#download-modal").fadeIn(100);
+	})
+	$("#export-button").click(function(){
+		$("#download-modal").fadeOut(100);
+	})
+	$("#close-export-modal").click(function(){
+		$("#download-modal").fadeOut(100);
 	})
 </script>
 {% endblock %}

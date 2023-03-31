@@ -1,0 +1,14 @@
+
+{% block add_modal %}
+<form action="{% url 'payroll-add' %}" method="post" class="flex flex-col gap-2">
+    {% csrf_token %}
+    {{ form.as_p}}
+    <div class="h-12 w-full flex justify-between items-center">
+        <input type="reset" value="Cancel" 
+            class="w-fit px-2 h-9 rounded bg-red-500 text-white text-sm cursor-pointer">
+        <input type="submit" value="Add Record" 
+                class="w-fit px-2 h-9 rounded bg-cyan-500 text-white text-sm cursor-pointer">
+    </div>
+</form>
+{% endblock %}
+

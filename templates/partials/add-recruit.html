@@ -1,0 +1,9 @@
+<form action="{% url 'add-recruit' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <br>
+    <div class="w-full h-12 flex justify-between items-center">
+        <button type="reset" class="w-fit px-4 h-9 rounded bg-red-500 text-sm text-white">Reset</button>
+        <button type="submit" class="w-fit px-4 h-9 rounded bg-green-500 text-sm text-white">Send</button>
+    </div>
+</form>

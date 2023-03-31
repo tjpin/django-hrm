@@ -2,20 +2,26 @@
 
 
 <div class="flex flex-col px-2 py-2 gap-2 relative h-full">
-    <h2 class="text-xl text-cyan-600 font-medium">{{ vacancy.vacancy.position }}</h2>
-    <p class="text-sm">vacancies: {{ vacancy.number_of_vacancy }}</p>
-    <p class="text-sm">Date posted: {{ vacancy.date_posted }}</p>
-    <p class="text-sm">Application deadline: {{ vacancy.application_deadline }}</p>
+    <h2 class="text-xl text-cyan-600 font-medium"><strong>{{ recruitment.vacancy.vacancy.position }}</strong></h2>
+    <p class="text-sm">vacancies: <strong>{{ recruitment.vacancy.number_of_vacancy }}</strong></p>
+    <p class="text-sm">Date posted: <strong>{{ recruitment.vacancy.date_posted }}</strong></p>
+    <p class="text-sm">Application deadline: <strong>{{ recruitment.vacancy.application_deadline }}</strong></p>
     <hr>
-    <p class="text-sm text-black font-medium underline">Job Description</p>
-    <p>{{ vacancy.description }}</p>
+    <p class="text-[17px] text-black font-medium underline">Job Description</p>
+    <p>{{ recruitment.vacancy.description }}</p>
+    <p class="text-[17px] text-black font-medium underline py-2">Responsibilities</p>
+    {% if recruitment.vacancy.responsibilities %}
+        {% for resp in recruitment.vacancy.responsibilities_list %}
+            <li class="list-item text-sm">{{ resp }}</li>
+        {% endfor %}
+    {% endif %}
     <br>
 
     <!-- application modal -->
     <div class="app-modal hidden h-full w-full flex-col bg-white absolute z-20">
         
         <div class=" h-full w-full py-2 overflow-y-auto grid grid-cols-1 scrollbar-thin">
-            <form id="job-form" method="post" action="{% url 'application' vacancy.pk %}" class="flex flex-col gap-2 px-2 py-2 border h-fit w-full" enctype="multipart/form-data">
+            <form id="job-form" method="post" action="" class="flex flex-col gap-2 px-2 py-2 border h-fit w-full" enctype="multipart/form-data">
                 {% csrf_token %}
                 
                 <label for="fname" class="text-sm text-textMain">First Name</label>
@@ -45,7 +51,7 @@
                 <label for="message" class="text-sm text-textMain">Add message</label>
                 <textarea name="cv-message" id="cv-message" cols="30" rows="5" class="border rounded px-2 py-2" placeholder="optional"></textarea>
                 <label for="" class="text-sm text-textMain">Applying for</label>
-                <input type="text" name="position" id="" class="w-full h-10 px-2 border rounded-sm outline-none" placeholder="{{ vacancy.vacancy.position }}" readonly>
+                <input type="text" name="position" id="" class="w-full h-10 px-2 border rounded-sm outline-none" placeholder="{{ job.vacancy.job.vacancy.position }}" readonly>
                 <!-- <span class="h-14 flex items-center">
                 </span> -->
                 <div class="flex w-full py-2 items-center justify-between">
@@ -56,17 +62,17 @@
         </div>
     </div>
 
-    <button id="app-btn" class="bg-blue-500 hover:bg-blue-600 text-white rounded text-sm outline-none px-2 h-7 w-20">Appy</button>
+    <!-- <button id="app-btn" class="bg-blue-500 hover:bg-blue-600 text-white rounded text-sm outline-none px-2 h-7 w-20">Appy</button> -->
 
 </div>
 <script>
-    $("#app-btn").click(function(){
-        $(".app-modal").show(500);
-    });
-    $("#ca").click(function(){
-        $(".app-modal").hide(50);
-        $("#job-form").trigger('reset');
-    });
+    //$("#app-btn").click(function(){
+    //    $(".app-modal").show(500);
+    //});
+    //$("#ca").click(function(){
+    //    $(".app-modal").hide(50);
+    //    $("#job-form").trigger('reset');
+    //});
 
     document.getElementById('resume').addEventListener('change', (e) => {
         var file = e.target.files[0];

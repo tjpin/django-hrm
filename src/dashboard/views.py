@@ -23,7 +23,7 @@ from src.office.models import (Appointment, AppointmentStatus)
 
 
 @login_required(login_url='login')
-@cache_page(60*15)
+# @cache_page(60*15)
 def dashboard(request):
     two_days_ago = timezone.now() - timedelta(days=2)
 
@@ -81,8 +81,12 @@ def staffs_per_deparment(request, id):
 @require_http_methods(['POST'])
 def update_settings(request):
     sys_settings = SystemSettings.objects.first()
+    print()
+    print(request)
 
     logo = request.FILES.get('id_company_logo', None)
+    if not logo:
+        logo = sys_settings.company_logo
     useName = request.POST.get('use_name')
 
     SystemSettings.objects.update_or_create(

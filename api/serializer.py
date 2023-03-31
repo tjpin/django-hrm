@@ -8,7 +8,7 @@ from src.office.models import (
     EmployeeGrade, Department, StaffPosition, StaffShift)
 from src.office.timesheet import Timetable
 from src.office.attendance import Attendance
-from src.office.hrd import Announcement
+from src.office.hrd import Announcement, Payroll
 from src.office.models import Appointment
 from src.office.applications import LeaveApplication
 from src.record.models import Document, Transmital
@@ -134,4 +134,12 @@ class LeaveApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LeaveApplication
+        fields = "__all__"
+
+
+class PayrollSerializer(serializers.ModelSerializer):
+    staff = StaffSerializer()
+
+    class Meta:
+        model = Payroll
         fields = "__all__"

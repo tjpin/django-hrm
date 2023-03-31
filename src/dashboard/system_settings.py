@@ -18,9 +18,7 @@ class BaseSystemSettings(models.Model):
     class Meta:
         abstract = True
 
-
 class SystemSettings(BaseSystemSettings):    
-
     def __str__(self):
         return self.company_name
     

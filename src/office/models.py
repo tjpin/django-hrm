@@ -1,6 +1,6 @@
 from django.db import models
-
-from utils.choice_helper import (AppointmentStatus)
+from django.utils import timezone
+from utils.choice_helper import (AppointmentStatus, ExportChoices)
 
 
 class Department(models.Model):
@@ -34,7 +34,6 @@ class StaffShift(models.Model):
 
 # #######################################################
 
-
 class Appointment(models.Model):
     appointment = models.CharField(max_length=20)
     details = models.TextField(max_length=500, null=True, blank=True)
@@ -53,3 +52,8 @@ class Appointment(models.Model):
         ordering = ['date', 'status']
         verbose_name = 'Appointment'
         verbose_name_plural = 'Appointments'
+
+
+class ExportModel(models.Model):
+    date = models.DateField(default=timezone.now)
+    export_format = models.CharField(max_length=10, choices=ExportChoices.choices, default=ExportChoices.XLSX)

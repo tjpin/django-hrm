@@ -15,7 +15,9 @@ router.register(r'documents', views.DocumentViewset)
 router.register(r'announcements', views.AnnouncementViewset)
 router.register(r'appointments', views.AppointmentViewset)
 router.register(r'leaves', views.LeaveApplicationViewset)
+router.register(r'payrol', views.PayrollViewset)
 
 urlpatterns = [
     path('', include(router.urls)),
 ]
+

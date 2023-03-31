@@ -60,3 +60,9 @@ class PayrollChoices(models.TextChoices):
 class AppointmentStatus(models.TextChoices):
     PENDING = "Pending"
     DONE = 'Done'
+
+class ExportChoices(models.TextChoices):
+    XLSX = 'xlsx'
+    XLS = 'xls'
+    CSV = 'csv'
+    JSON = 'json'

@@ -9,7 +9,6 @@ from .timesheet import Timetable
 from .hrd import (Performance, Payroll, Training, Announcement)
 from .models import Appointment
 
-
 # //////// Actions
 @admin.action(description='Conclude Leave')
 def update_leave_status(modeladmin, request, queryset):

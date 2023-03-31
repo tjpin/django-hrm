@@ -17,21 +17,15 @@ from dotenv import load_dotenv
 # Load enviroment variable
 load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-x#cnu$-=ye2hozb(s4mg^o53mu799afp(7hf4hxl9()yygh5=6'  # noqa: E501
 SECRET_KEY = os.getenv("SECRET_KEY")
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
-# ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 INTERNAL_IPS = ['localhost', '127.0.0.1', '0.0.0.0']
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
-
+X_FRAME_OPTIONS = 'ALLOW-FROM http://127.0.0.1:8000'
 
 # Application definition
 
@@ -110,16 +104,16 @@ ASGI_APPLICATION = 'hrm.asgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
 
         # POSTGRESSSQL
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('PG_DB_NAME'),
-        'USER': os.getenv('PG_DB_USER'),
-        'PASSWORD': os.getenv('PG_DB_PASSWORD'),
-        'HOST': os.getenv('PG_DB_HOST'),
-        'PORT': os.getenv('PG_DB_PORT'),
+        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        # 'NAME': os.getenv('PG_DB_NAME'),
+        # 'USER': os.getenv('PG_DB_USER'),
+        # 'PASSWORD': os.getenv('PG_DB_PASSWORD'),
+        # 'HOST': os.getenv('PG_DB_HOST'),
+        # 'PORT': os.getenv('PG_DB_PORT'),
     }
 }
 
@@ -127,12 +121,12 @@ DATABASES = {
 CACHES = {
     'default': {
         # REDIS CACHE
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379',
+        # 'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        # 'LOCATION': 'redis://127.0.0.1:6379',
 
         # DatabaseCache
-        # 'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        # 'LOCATION': 'cache_base'
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_base'
     }
 }
 
@@ -140,8 +134,8 @@ CACHES = {
 STORAGES = {
     # ...
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-        # "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        # "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
 

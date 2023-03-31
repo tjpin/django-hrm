@@ -1,6 +1,7 @@
 {% extends 'base/base.html' %}
 {% load static %}
 
+{% block title %} Recruitment {% endblock %}
 
 {% block content %}
     <div class="flex flex-col gap-2 px-2 py-2 w-full h-full">
@@ -9,6 +10,7 @@
             <button id="job-tab" class="h-10 w-fit px-3">Recruited</button>
             <button id="job-tab" class="h-10 w-fit px-3">Applications</button>
         </div>
+        <!-- Vacancies -->
         <div id="recruitment-content" class="hidden w-full h-full">
             {% if recruitments %}
             <div class="w-full h-auto px-2 py-2 grid grid-cols-1 md:flex gap-4">
@@ -18,14 +20,14 @@
                         <p class="text-sm text-textMain py-2">Vacancy</p>
                         <a hx-target="#job-detail" hx-trigger="click" hx-get="{% url 'vacancy' job.id %}" hx-swap="innerHHTML" class="cursor-pointer">
                             <h4 class="text-cyan-500 font-medium hover:underline">
-                                {{ job.vacancy.position }}
+                                {{ job.vacancy.vacancy.position }}
                             </h4>
                         </a>
                         <p class="text-sm text-textMain py-2">Description</p>
-                        <p>{{ job.description | truncatewords:20}}</p>
+                        <p>{{ job.vacancy.description | truncatewords:20}}</p>
                         <span class="flex justify-between items-center py-2">
-                            <p class="text-sm text-textMain">Vacancies: {{ job.number_of_vacancy }}</p>
-                            <p class="text-xs text-textMain">Application deadline: {{ job.application_deadline }}</p>
+                            <p class="text-sm text-textMain">Vacancies: {{ job.vacancy.number_of_vacancy }}</p>
+                            <p class="text-xs text-textMain">Application deadline: {{ job.vacancy.application_deadline }}</p>
                         </span>
                     </div>
                     {% endfor %}
@@ -38,8 +40,88 @@
                 </div>
             {% endif %}
         </div>
-        <div id="recruitment-content" class="hidden w-full h-full">Panel 2</div>
-        <div id="recruitment-content" class="hidden w-full h-full">Panel 3</div>
+        <!-- Recruits -->
+        <div data-messages="{{ messages }}" id="recruitment-content" class="hidden w-full h-full">
+            <div class="w-full h-10 flex items-center gap-4">
+                <button hx-get="{% url 'add-recruit' %}" hx-target="#dynamic-modal" hx-swap="beforeend" hx-trigger="click"
+                    id="addmodal-open" class="group w-9 h-9 rounded border hover:bg-cyan-500">
+                    <i class="fa-solid fa-add group-hover:text-white"></i>
+                </button>
+                <!-- snackbar -->
+                <span class="msg flex px-2 w-fit gap-[100] items-center"></span>
+            </div>
+            <div class="w-full h-full overflow-x-auto">
+                {% if not recruits %}
+                    <span class="flex justify-center items-center w-full h-12 text-lg"> No Recruit.</span>
+                {% else %}
+                    <table class="w-full whitespace-nowrap border">
+                        <thead class="w-full border-b">
+                            <tr class="w-full h-9 bg-white shadow">
+                                <th class="text-left text-sm font-medium px-2 border-r">Date</th>
+                                <th class="text-left text-sm font-medium px-2 border-r">Full Name</th>
+                                <th class="text-left text-sm font-medium px-2 border-r">Email</th>
+                                <th class="text-left text-sm font-medium px-2 border-r">Mobile No.</th>
+                                <th class="text-left text-sm font-medium px-2 border-r">Position</th>
+                                <th class="text-left text-sm font-medium px-2 border-r">Status</th>
+                                <th class="text-left text-sm font-medium px-2 border-r">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for recruit in recruits %}
+                                <tr class="w-full h-9 even:bg-gray-50 hover:bg-gray-100">
+                                    <td class="text-start text-sm px-2">{{ recruit.date }}</td>
+                                    <td class="text-start text-sm px-2">{{ recruit.full_name }}</td>
+                                    <td class="text-start text-sm px-2">{{ recruit.email }}</td>
+                                    <td class="text-start text-sm px-2">{{ recruit.mobile_number }}</td>
+                                    <td class="text-start text-sm px-2">{{ recruit.position.vacancy }}</td>
+                                    {% if recruit.status == 'Selected' %}
+                                        <td class="text-start text-sm px-2 text-green-600">{{ recruit.status }}</td>
+                                    {% else %}
+                                        <td class="text-start text-sm px-2 text-mainText">{{ recruit.status }}</td>
+                                    {% endif %}
+                                    <td class="text-start text-sm px-2">
+                                        <button id="promote" data-promoteurl="{% url 'promote' recruit.pk %}" class="h-full w-full text-left text-blue-500">Promote</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+        <!-- Applicants -->
+        <div id="recruitment-content" class="hidden w-full h-full">
+            <div class="w-full h-full overflow-x-auto">
+                {% if not applications %}
+                    <span class="flex justify-center items-center w-full h-12 text-lg"> No Applications.</span>
+                {% else %}
+                    <table class="auto whitespace-nowrap w-full">
+                        <thead>
+                            <tr class="w-full border shadow h-11 bg-white">
+                                <th class="text-start text-sm font-medium px-2 border-r">Date</th>
+                                <th class="text-start text-sm font-medium px-2 border-r">Full Name</th>
+                                <th class="text-start text-sm font-medium px-2 border-r">Email</th>
+                                <th class="text-start text-sm font-medium px-2 border-r">Mobile No.</th>
+                                <th class="text-start text-sm font-medium px-2 border-r">Position</th>
+                                <th class="text-start text-sm font-medium px-2 border-r">Resume</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for applicant in applications %}
+                                <tr class="h-10 w-full even:bg-gray-50 hover:bg-gray-100 border">
+                                    <td class="text-sm text-left px-2">{{ applicant.date }}</td>
+                                    <td class="text-sm text-left px-2">{{ applicant.full_name }}</td>
+                                    <td class="text-sm text-left px-2">{{ applicant.email }}</td>
+                                    <td class="text-sm text-left px-2">{{ applicant.mobile_number }}</td>
+                                    <td class="text-sm text-left px-2">{{ applicant.position_applied }}</td>
+                                    <td class="text-sm text-left px-2">{{ applicant.resume_name }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -65,6 +147,33 @@
                 jobPannels[i].classList.add('job-pannel-active')
             })
         })
+
+        var promoteBtns = document.querySelectorAll("#promote")
+        var messages = "";
+        promoteBtns.forEach((b, i) => {
+            $tr = b.closest("tr");
+            var url = b.dataset.promoteurl;
+            b.addEventListener('click', () => {
+                $.ajax({
+                    type: 'get',
+                    url: url,
+                    success: function(res){
+                        $tr.remove();
+                        msgs = `
+                        <h3 id="success-msg" class="text-green-500 text-sm">Promoted to Staff ✅</h3>
+                        <button onclick="$('.msg').empty()" id="clear-msg" class="w-8 h-8"><i class="fa-solid fa-xmark text-red-500"></i></button>
+                        `
+                        messages += msgs;
+                        $(".msg").html(messages);
+                    },
+                    error: function(e){console.log(e)}
+                });
+            });
+        });
+        
+        $("#clear-msg").click(function(){
+            $(".msg").empty();
+        })
     </script>
-{% endblock %}
+{% endblock %}`
 

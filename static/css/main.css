@@ -63,7 +63,7 @@
     top: 0;
     right: 0;
 }
-#att-update-modal {
+#att-update-modal, #download-modal {
     position: fixed;
     width: 100%;
     height: 100%;
