@@ -37,40 +37,45 @@
         </div>
     </div>
     <div class="grid grid-cols-1 md:flex gap-2 w-full">
-        <span class="w-full flex flex-col">
-            <label for="">Bio / Note</label>
-            {{ form.bio }}
-        </span>
         <div class="grid grid-cols-1 md:flex flex-col w-44 h-auto px-2">
             <label for="">Gender</label>
             {{ form.gender }}
         </div>
-        <!-- upload multiple files -->
-        <span class="w-full h-auto flex flex-col">
-            <label for="">Documents</label>
-            <div class="upload-area px-4 py-4 rounded flex items-center justify-between gap-2">
-                <label for="id_files" id="staff-files-upload">
-                    {{ form.files }}
-                    <img id="upld" src="{% static 'images/file.png' %}" alt="upload files" class=" object-cover w-16 h-16">
-                </label>
-                <ul class="staff-selected-files w-4/6">
-                    <h3 class="text-sm text-gray-500">No Files Selected</h3>
-                </ul>
-            </div>
+        <span class="w-full flex flex-col">
+            <label for="">Bio / Note</label>
+            {{ form.bio }}
         </span>
     </div>
     <div class="w-full h-full flex gap-4 px-2 py-2">
         <div class="grid grid-cols-1 md:flex flex-col w-full">
             <label for="">Department</label>
-            {{ form.department }}
+            <span class="w-full h-11 flex items-start gap-2">
+                {{ form.department }}
+                <button type="button" hx-get="{% url 'add-department' %}" hx-target="#dynamic-modal" hx-swap="beforeend" hx-trigger="click"
+                id="addmodal-open"  class="group w-8 h-8 border hover:bg-cyan-500">
+                    <i class="fa-solid fa-add text-gray-400 group-hover:text-white"></i>
+                </button>
+            </span>
             <label for="">position</label>
-            {{ form.position }}
+            <span class="w-full h-11 flex items-start gap-2">
+                {{ form.position }}
+                <button type="button" hx-get="{% url 'add-position' %}" hx-target="#dynamic-modal" hx-swap="beforeend" hx-trigger="click"
+                id="addmodal-open"  class="group w-8 h-8 border hover:bg-cyan-500">
+                    <i class="fa-solid fa-add text-gray-400 group-hover:text-white"></i>
+                </button>
+            </span>
         </div>
         <div class="grid grid-cols-1 md:flex flex-col w-full">
             <label for="">Education</label>
             {{ form.education }}
             <label for="">Grade</label>
-            {{ form.grade }}
+            <span class="w-full h-11 flex items-end gap-2">
+                {{ form.grade }}
+                <button type="button" hx-get="{% url 'add-grade' %}" hx-target="#dynamic-modal" hx-swap="beforeend" hx-trigger="click"
+                id="addmodal-open"  class="group w-8 h-8 border hover:bg-cyan-500">
+                    <i class="fa-solid fa-add text-gray-400 group-hover:text-white"></i>
+                </button>
+            </span>
         </div>
         
     </div>

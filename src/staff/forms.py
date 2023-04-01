@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.widgets import NumberInput
 
-from .models import Staff, GenderOptions
+from .models import Staff, GenderOptions, StaffPosition, EmployeeGrade, Department
 
 
 class StaffRegistrationForm(forms.ModelForm):
@@ -24,4 +24,19 @@ class StaffRegistrationForm(forms.ModelForm):
             'gender': forms.RadioSelect(choices=GenderOptions.choices)
         }
     
+class DepartmentForm(forms.ModelForm):
+    class Meta:
+        model = Department
+        fields = ['department']
+    
+class PositionForm(forms.ModelForm):
+    class Meta:
+        model = StaffPosition
+        fields = ['position']
+    
+class GradeForm(forms.ModelForm):
+    class Meta:
+        model = EmployeeGrade
+        fields = ['grade']
+
 

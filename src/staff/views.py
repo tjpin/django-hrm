@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.db.models import Q
 
 from .models import Staff
-from .forms import StaffRegistrationForm
+from .forms import (StaffRegistrationForm, DepartmentForm, GradeForm, PositionForm)
 from src.record.models import Document
 from src.office.hrd import Payroll
 from utils.mixins import AdminAccessAndLoginMixin
@@ -93,3 +93,31 @@ def get_staffs(request):
 def staff_data(request, pk):
     staff = Staff.objects.get(pk=pk)
     return render(request, 'partials/staff-detail.html', {'staff': staff})
+
+def add_grade(request):
+    form = GradeForm()
+    if request.method == "POST":
+        form = GradeForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('/staffs/add/')
+    return render(request, 'partials/add-grade.html', {'form': form})
+
+def add_position(request):
+    form = PositionForm()
+    if request.method == "POST":
+        form = PositionForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('/staffs/add/')
+    return render(request, 'partials/add-position.html', {'form': form})
+
+def add_department(request):
+    form = DepartmentForm()
+    if request.method == "POST":
+        form = DepartmentForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            return redirect('/staffs/add/')
+    return render(request, 'partials/add-department.html', {'form': form})
+
