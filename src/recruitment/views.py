@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods
 from django.views.generic import DetailView, ListView, FormView
@@ -8,7 +10,7 @@ from .models import Application, Recruit, Recruitment, Vacancy
 from .forms import RecruitForm, ApplicationForm
 from src.staff.models import Staff, StaffStatusChoices
 
-class RecruitmentHomeView(ListView):
+class RecruitmentHomeView(LoginRequiredMixin, ListView):
     queryset = Recruitment.objects.select_related('vacancy').order_by('-date')
     template_name = 'pages/recruitment.html'
     context_object_name = 'recruitments'
@@ -19,6 +21,7 @@ class RecruitmentHomeView(ListView):
         context['recruits'] = Recruit.objects.all()
         return context
 
+@login_required(login_url='login')
 @require_http_methods(["GET", "POST"])
 def add_recruit(request):
     form = RecruitForm()
@@ -27,11 +30,10 @@ def add_recruit(request):
         if form.is_valid():
             form.save()
             return redirect('recruitment')
-        print()
-        print(form.errors)
         return redirect('recruitment')
     return render(request, 'partials/add-recruit.html', {'form': form})
 
+@login_required(login_url='login')
 def promote_recruit(request, pk):
     recruit = Recruit.objects.get(pk=pk)
     db_staff = None

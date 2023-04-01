@@ -22,8 +22,6 @@ class StaffHome(AdminAccessAndLoginMixin, ListView):
     permission_required = 'staff.view_staff'
 
     def get_queryset(self):
-        print()
-        print(self.request.META)
         query = self.request.GET.get('q')
         if query:
             filtered = Staff.objects.filter(
@@ -43,7 +41,6 @@ class CreateStaff(AdminAccessAndLoginMixin, FormView):
 
     @csrf_exempt
     def form_valid(self, form):
-        print(self.request.FILES)
         files = self.request.FILES.getlist('document')
         for file in files:
             doc = Document.objects.create(
@@ -55,7 +52,6 @@ class CreateStaff(AdminAccessAndLoginMixin, FormView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print(form.errors)
         return super().form_invalid(form)
 
 class DeleteStaff(AdminAccessAndLoginMixin, DeleteView):
@@ -71,8 +67,6 @@ class PayrollDetails(AdminAccessAndLoginMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(PayrollDetails, self).get_context_data(**kwargs)
         context['staff'] = kwargs.get('object', None).staff
-        print()
-        print(context)
         return context
 
 class StaffUpdateView(AdminAccessAndLoginMixin, UpdateView):

@@ -1,4 +1,5 @@
 from datetime import timedelta, datetime
+import pathlib
 
 from django.views.generic import ListView
 from django.shortcuts import render, redirect
@@ -11,6 +12,7 @@ from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from django.views.decorators.http import require_http_methods 
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 
 from src.account.models import AccountUser
 from src.office.applications import (LeaveApplication, LeaveStatus, timezone)
@@ -20,6 +22,10 @@ from src.staff.models import (StaffNextBirthday, Staff, Department)
 from .forms import (SettingsForm, SystemSettings)
 from src.recruitment.models import (Vacancy, Application, Recruit)
 from src.office.models import (Appointment, AppointmentStatus)
+from utils.create_settings import create_settings
+
+
+BASE_PATH = pathlib.Path(__file__).resolve().parent.parent
 
 
 @login_required(login_url='login')
@@ -80,26 +86,21 @@ def staffs_per_deparment(request, id):
 @csrf_exempt
 @require_http_methods(['POST'])
 def update_settings(request):
-    sys_settings = SystemSettings.objects.first()
-    print()
-    print(request)
-
     logo = request.FILES.get('id_company_logo', None)
-    if not logo:
-        logo = sys_settings.company_logo
     useName = request.POST.get('use_name')
-
-    SystemSettings.objects.update_or_create(
-        company_name=request.POST.get('company_name'),
-        company_logo=logo,
-        use_name=True if useName == 'on' else False,
-        company_address=request.POST.get('company_address'),
-        company_email=request.POST.get('company_email'),
-        company_mobile_number=request.POST.get('company_mobile_number'),
-        company_zip=request.POST.get('company_zip'),
-        currency=request.POST.get('currency')
-    )
-    return redirect('/')
+    settings_persist = SystemSettings.objects.exists()
+    if settings_persist:
+        sys_settings = SystemSettings.objects.first()
+        if not logo and sys_settings.company_logo is not None:
+            logo = sys_settings.company_logo
+        if not logo and sys_settings.company_logo is None:
+            logo = BASE_PATH / 'static/images/logo.png'
+        create_settings(request, logo, useName)
+        return redirect('/')
+    else:
+        logo = BASE_PATH / 'static/images/logo.png'
+        create_settings(request, logo, useName)
+        return redirect('/')
 
 def add_training(request):
     form = TrainingForm()

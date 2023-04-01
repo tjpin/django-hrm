@@ -66,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'src.dashboard.settings_middleware.SettingsGuaranteeMiddleware',
 ]
 
 
@@ -103,10 +104,20 @@ ASGI_APPLICATION = 'hrm.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+''' :Use postgres backend only when database is setup. create .env file in the root directory 
+    and include 
+        - PG_DB_NAME = '<database_name>'
+        - PG_DB_USER = '<database_user>'
+        - PG_DB_PASSWORD = '<database_password>'
+        - PG_DB_HOST = <defaults to localhost else provide 'host url'>
+        - PG_DB_POST = <defaults to 5432 else provide port>
+'''
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+
 
         # POSTGRESSSQL
         # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -118,18 +129,24 @@ DATABASES = {
     }
 }
 
-# Cache
-CACHES = {
-    'default': {
-        # REDIS CACHE
-        # 'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        # 'LOCATION': 'redis://127.0.0.1:6379',
+'''
+    :Cache backend - Uncomment below code to activate cache backend.
+    :Options - Redis requires extra configurations like docker container running on specifies port.
+'''
 
-        # DatabaseCache
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'cache_base'
-    }
-}
+# Cache
+# CACHES = {
+#     'default': {
+#         # REDIS CACHE
+#         # 'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+#         # 'LOCATION': 'redis://127.0.0.1:6379',
+
+#         # DatabaseCache
+#         # 'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         # 'LOCATION': 'cache_base'
+#     }
+# }
+
 
 # Whitenoise static files caching and comression
 STORAGES = {

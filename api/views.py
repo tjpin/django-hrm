@@ -1,4 +1,5 @@
 from rest_framework import (viewsets, permissions, authentication)
+from rest_framework.generics import GenericAPIView, RetrieveUpdateDestroyAPIView
 
 from .serializer import *
 from src.account.models import AccountUser
@@ -8,11 +9,17 @@ from src.office.attendance import Attendance
 from src.office.hrd import *
 
 
-class StaffViewset(viewsets.ModelViewSet):
+class StaffViewset(RetrieveUpdateDestroyAPIView, viewsets.GenericViewSet):
     queryset = Staff.objects.all().order_by('first_name')
     serializer_class = StaffSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [authentication.BasicAuthentication]
+
+# class StaffViewset(viewsets.ModelViewSet):
+#     queryset = Staff.objects.all().order_by('first_name')
+#     serializer_class = StaffSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+#     authentication_classes = [authentication.BasicAuthentication]
 
 
 class UserViewset(viewsets.ModelViewSet):
