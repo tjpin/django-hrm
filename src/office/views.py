@@ -20,9 +20,12 @@ class AttendanceView(ListView, FormView):
     form_class = DataExportForm
     
     def get_queryset(self, **kwargs):
+        _all = 'all'
         qs = self.request.GET.get('aq')
         qdate = self.request.GET.get('dq')
-        if not qs and not qdate:
+        if qs == _all.lower():
+            return Attendance.objects.select_related('staff').order_by('-date')
+        if qs is None and qdate is None:
             return self.queryset
         if qdate:
             queryset = Attendance.objects.filter(date=qdate).order_by('-date')

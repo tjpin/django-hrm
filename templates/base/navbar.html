@@ -17,10 +17,10 @@
     </div>
     <ul id="navbar-ul" class="h-12 w-full hidden md:flex justify-end gap-0 items-center">
         {% if request.user.is_superuser %}
-            <li id="navlist" class="flex py-3 md:py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
+            <li id="navlist" class="flex py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
                 text-[16px] md:text-sm hover:bg-cyan-500 w-full md:w-fit hover:text-white cursor-pointer relative">
                 Administration
-                <span id="nav-dropdown" class="w-fit hidden h-auto absolute left-0 top-9 py-2 text-sm bg-white">
+                <span id="nav-dropdown" class="w-fit hidden h-auto py-2 text-sm bg-white">
                     <ul class="flex flex-col w-full items-left border rounded shadow-sm px-2 py-2">
                         <a href="{% url 'payroll' %}">
                             <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">Payrol</li>
@@ -31,10 +31,10 @@
                     </ul>
                 </span>
             </li>
-            <li id="navlist" class="flex py-3 md:py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
+            <li id="navlist" class="flex py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
                 text-[16px] md:text-sm hover:bg-cyan-500 w-full md:w-fit hover:text-white cursor-pointer relative">
                 Organisation
-                <span id="nav-dropdown" class="w-fit hidden h-auto absolute left-0 top-9 py-2 bg-white">
+                <span id="nav-dropdown" class="w-fit hidden h-auto absolute py-2 bg-white">
                     <ul class="flex flex-col w-full items-left border rounded shadow-sm px-2 py-2">
                         <a href="/staffs/">
                             <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">
@@ -47,10 +47,10 @@
                     </ul>
                 </span>
             </li>
-            <li id="navlist" class="flex py-3 md:py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
+            <li id="navlist" class="flex py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
                 text-[16px] md:text-sm hover:bg-cyan-500 w-full md:w-fit hover:text-white cursor-pointer relative">
                 Departments
-                <span id="nav-dropdown" class="w-fit hidden h-auto absolute left-0 top-9 py-2 bg-white">
+                <span id="nav-dropdown" class="w-fit hidden h-auto absolute py-2 bg-white">
                     <ul id="depts-ul" class="flex flex-col w-full items-left border rounded shadow-sm px-2 py-2">
                         {% for department in departments %}
                             <li hx-get="{% url 'department-staffs' department.id %}" hx-target="#departments-view" hx-trigger="click" hx-swap="innerHTML"
@@ -58,22 +58,15 @@
                                 {{ department }}
                             </li>
                         {% endfor %}
+                        <button hx-get="{% url 'add-department' %}" hx-target="#dynamic-modal" hx-swap="beforeend" hx-trigger="click"
+                                id="addmodal-open" class="h-9 w-full bg-green-500 text-white text-sm">add new</button>
                     </ul>
                 </span>
             </li>
             <a href="/recruitment/">
-                <li id="navlist" class="flex py-3 md:py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
+                <li id="navlist" class="flex py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
                     text-[16px] md:text-sm hover:bg-cyan-500 w-full md:w-fit hover:text-white cursor-pointer relative">
                     Recruitment
-                    <!-- <span id="nav-dropdown" class="w-fit hidden h-auto absolute left-0 top-9 py-2 bg-white">
-                        <ul class="flex flex-col w-full items-left border rounded shadow-sm px-2 py-2">
-                            <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">Applications</li>
-                            <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">
-                                <a href="/career/">Vacancies</a>
-                            </li>
-                            <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">Recruits</li>
-                        </ul>
-                    </span> -->
                 </li>
             </a>
             <li id="" class="flex py-2 px-2 rounded-sm items-center justify-start gap-2
@@ -85,10 +78,10 @@
                 </button>
             </li>
         {% else %}
-            <li id="navlist" class="flex py-3 md:py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
+            <li id="navlist" class="flex py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
                 text-[16px] md:text-sm hover:bg-cyan-500 w-full md:w-fit hover:text-white cursor-pointer relative">
                 Organisation
-                <span id="nav-dropdown" class="w-fit hidden h-auto absolute left-0 top-9 py-2 bg-white">
+                <span id="nav-dropdown" class="w-fit hidden h-auto absolute py-2 bg-white">
                     <ul class="flex flex-col w-full items-left border rounded shadow-sm px-2 py-2">
                         <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">
                             <a href="/staffs/">Staffs</a>
@@ -97,10 +90,10 @@
                     </ul>
                 </span>
             </li>
-            <li id="navlist" class="flex py-3 md:py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
+            <li id="navlist" class="flex py-2 px-2 rounded-sm items-center justify-start md:justify-center text-mainText 
                 text-[16px] md:text-sm hover:bg-cyan-500 w-full md:w-fit hover:text-white cursor-pointer relative">
                 Departments
-                <span id="nav-dropdown" class="w-fit hidden h-auto absolute left-0 top-9 py-2 bg-white">
+                <span id="nav-dropdown" class="w-fit hidden h-auto absolute py-2 bg-white">
                     <ul class="flex flex-col w-full items-left border rounded shadow-sm px-2 py-2">
                         {% for department in departments %}
                             <li class="h-8 w-full text-mainText hover:bg-mainCyan hover:text-white flex items-center px-2">

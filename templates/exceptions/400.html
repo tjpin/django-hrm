@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/src/style.css' %}">
-    <title>{{ system_settings.company_name }} - 404</title>
-</head>
-<body class="relative">
-    <div class="h-screen w-screen fixed top-0 right-0 flex justify-center itemd-center">
-        <h1 class="text-red-500 text-center">Page Not Found</h1>
-    </div>    
-</body>
-</html>
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %} Page not Found {% endblock %}
+
+{% block content %}
+    <div class="relative">
+        <div class="h-screen w-screen fixed top-0 right-0 flex flex-col gap-3 justify-center items-center">
+            <img src="{% static 'images/error.gif' %}" alt="" class="w-[200px] md:w-[300px] h-[200px] md:h-[300px]">
+            <h1 class="text-cyan-500 text-center text-lg md:text-3xl">
+                400 - Am sory. Something must be wrong.
+            </h1>
+        </div>
+    </div>
+{% endblock %}

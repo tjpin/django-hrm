@@ -38,9 +38,9 @@ $(document).ready(function() {
         if(!isOpen){
             isOpen = true;
             menuButton.innerHTML = `<i class="fa-solid fa-xmark text-lg text-red-500"></i>`
-            $("#navbar-ul").show();
+            $("#navbar-ul").fadeIn(duration=200);
         } else {
-            $("#navbar-ul").hide();
+            $("#navbar-ul").fadeOut(duration=200);
             menuButton.innerHTML = `<i class="fa-solid fa-bars text-lg text-mainCyan"></i>`
             isOpen = false;
         }
@@ -54,10 +54,13 @@ $(document).ready(function() {
     });
     
     $("#open-settings").click(function(){
-        $(".settings-menu").show(duration=200);
+        $("#navbar-ul").fadeOut(duration=200);
+        menuButton.innerHTML = `<i class="fa-solid fa-bars text-lg text-mainCyan"></i>`
+        isOpen = false;
+        $(".settings-menu").fadeIn(duration=200);
     })
     $("#close-settings").click(function(){
-        $(".settings-menu").hide(duration=200);
+        $(".settings-menu").fadeOut(duration=200);
     })
 
 
