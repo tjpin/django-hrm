@@ -7,6 +7,7 @@ router = routers.DefaultRouter()
 
 router.register(r'staffs', views.StaffViewset)
 router.register(r'users', views.UserViewset)
+router.register(r'departments', views.DepartmentViewset)
 router.register(r'vacancies', views.VacancymentViewset)
 router.register(r'recruits', views.RecruitViewset)
 router.register(r'recruitments', views.RecruitmentViewset)

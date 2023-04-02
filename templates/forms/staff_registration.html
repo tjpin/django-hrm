@@ -6,7 +6,7 @@
 {% block content %} 
 <form action="{% url 'new' %}" method="post" autocomplete="off" autocapitalize="on" enctype="multipart/form-data" class="fm w-full h-auto border flex flex-col gap-4">
     {% csrf_token %}
-    <div class="dv w-full h-full grid grid-cols-1 md:flex gap-4 px-2 py-2">
+    <div class="dv w-full h-full grid grid-cols-1 md:flex gap-4 py-2">
         <div class="grid grid-cols-1 md:flex flex-col w-full">
             <label for="">First Name</label>
             {{ form.first_name }}
@@ -36,8 +36,8 @@
             {{ form.email }}
         </div>
     </div>
-    <div class="grid grid-cols-1 md:flex gap-2 w-full">
-        <div class="grid grid-cols-1 md:flex flex-col w-44 h-auto px-2">
+    <div class="grid grid-cols-1 md:flex gap-5 md:gap-2 w-full">
+        <div class="grid grid-cols-1 md:flex flex-col w-44 h-auto">
             <label for="">Gender</label>
             {{ form.gender }}
         </div>
@@ -46,7 +46,7 @@
             {{ form.bio }}
         </span>
     </div>
-    <div class="w-full h-full flex gap-4 px-2 py-2">
+    <div class="w-full h-full grid grid-cols-1 md:flex gap-4 py-2">
         <div class="grid grid-cols-1 md:flex flex-col w-full">
             <label for="">Department</label>
             <span class="w-full h-11 flex items-start gap-2">

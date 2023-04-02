@@ -54,15 +54,16 @@ $(document).ready(function() {
     });
     
     $("#open-settings").click(function(){
-        $("#navbar-ul").fadeOut(duration=200);
-        menuButton.innerHTML = `<i class="fa-solid fa-bars text-lg text-mainCyan"></i>`
-        isOpen = false;
         $(".settings-menu").fadeIn(duration=200);
+        if(window.outerWidth <= 700){
+            $("#navbar-ul").fadeOut(duration=200);
+            menuButton.innerHTML = `<i class="fa-solid fa-bars text-lg text-mainCyan"></i>`
+            isOpen = false;
+        }
     })
     $("#close-settings").click(function(){
         $(".settings-menu").fadeOut(duration=200);
     })
-
 
     // ------------------------------------------------------------------------------
     // ------------------------------------------------------------------------------

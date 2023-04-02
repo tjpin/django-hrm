@@ -100,6 +100,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'hrm.wsgi.application'
 ASGI_APPLICATION = 'hrm.asgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S',
+    'TIME_FORMAT': '%H:%M:%S',
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
