@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.ico' %}">
     <link rel="stylesheet" href="{% static 'css/src/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/forms.css' %}">
@@ -47,10 +48,10 @@
             </div>
         </div>
 
-        <span id="chart-button" class="fixed h-[45px] w-[45px] rounded-full shadow-lg bg-white
-                border bottom-5 right-2 hidden items-center justify-center cursor-pointer">
+        <!-- <span id="chart-button" class="fixed h-[45px] w-[45px] rounded-full shadow-lg bg-white
+                border bottom-5 right-2 flex items-center justify-center cursor-pointer">
             <i class="fa-solid fa-comment text-mainCyan text-2xl"></i>
-        </span>
+        </span> -->
         {% block content %}
 
         {% endblock %}
