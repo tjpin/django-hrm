@@ -30,5 +30,9 @@ class AccountUser(AbstractBaseUser, PermissionsMixin):
     
     def get_username(self):
         return self.email
+    
+    @property
+    def user_token(self):
+        return self.auth_token.key
 
 

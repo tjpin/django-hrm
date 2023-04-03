@@ -45,6 +45,13 @@ def dashboard(request):
     admins = AccountUser.objects.filter(Q(is_superuser=True) & Q(is_staff=True)).order_by('-last_login')[:5]
     trainings = Training.objects.filter(Q(completed=False)).order_by('-date')[:3]
     announcements = Announcement.objects.select_related('sender').filter(date_announced__gte=two_days_ago).order_by("-date_announced")[:3]
+    
+    departments_count = {}
+    departments = Department.objects.all()
+    for dept in departments:
+        department_staff = Staff.objects.filter(department=dept)
+        departments_count[dept.department] = department_staff.count()
+        
     context = {
         "admins": admins,
         "leaves": leaves,
@@ -55,9 +62,9 @@ def dashboard(request):
         'appointments': appointments,
         "applications": applications,
         "announcements": announcements,
+        "departments_count": departments_count,
     }
     return render(request, 'pages/dashboard.html', context)
-
 
 def login_user(request):
     if request.method == 'POST':
@@ -108,6 +115,7 @@ def add_training(request):
         form = TrainingForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            return redirect('/')
         else:
             print(form.errors)
     return render(request, 'partials/training_form.html', {'form': form})

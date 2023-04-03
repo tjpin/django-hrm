@@ -203,12 +203,12 @@
     </div>
     <div class="depts flex flex-col gap-2 w-full md:w-2/6 h-fit bg-white px-2 py-2">
         <h3 class="text-sm font-medium text-mainCyan px-2 py-2">Departments</h3>
-        {% for department in departments %}
+        {% for department, count in departments_count.items %}
             <span class="flex justify-between px-2 py-2 hover:bg-hg shadow-sm rounded-sm">
-                <h3 class="text-sm text-textMain">{{ department.department }}</h3>
+                <h3 class="text-sm text-textMain">{{ department }}</h3>
                 <span class="flex items-center gap-2">
                     <i class="fa-solid fa-users text-gray-500"></i>
-                    <h3 class="text-sm text-textMain">{{ departments.count }}</h3>
+                    <h3 class="text-sm text-textMain">{{ count }}</h3>
                 </span>
             </span>
         {% endfor %}

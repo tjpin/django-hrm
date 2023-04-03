@@ -20,7 +20,8 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = os.getenv("DEBUG")
+# DEBUG_DEFAULT = os.getenv("DEBUG")
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 INTERNAL_IPS = ['localhost', '127.0.0.1', 'pythonanywhere.com']
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'rest_framework.authtoken',
 
     # new apps
     'src.dashboard.apps.DashboardConfig',
@@ -106,6 +108,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',

@@ -122,9 +122,8 @@
         top: 0;
         right: 0;
         flex-direction: column;
-        background-color: black;
-        background: rgba(0, 0, 0, 0.3);
-        border: 1px solid rgb(232, 231, 231);
+        background-color: white;
+        border-left: 1px solid rgb(205, 209, 209);
     } 
     #navlist {
         background-color: #ffffff;

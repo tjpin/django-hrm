@@ -10,7 +10,7 @@ class AccountUserAdmin(UserAdmin):
     form = AccountUserChangeForm
     model = AccountUser
 
-    list_display = ('first_name', 'last_name', 'email', 'date_joined', 'is_staff', 'is_active')
+    list_display = ('first_name', 'last_name', 'email', 'date_joined', 'is_staff', 'is_active', 'user_token')
     list_filter = ('email', 'is_staff', 'is_active')
     list_display_links = ('first_name', 'last_name', 'email')
 
