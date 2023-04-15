@@ -15,8 +15,8 @@ class StaffViewset(RetrieveUpdateDestroyAPIView, viewsets.ModelViewSet):
     queryset = Staff.objects.all().order_by('first_name')
     serializer_class = StaffSerializer
     renderer_classes = [renderers.JSONRenderer]
-    # permission_classes = [permissions.IsAuthenticated]
-    # authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
 
 class UserViewset(viewsets.ModelViewSet):
     queryset =AccountUser.objects.all().order_by('first_name')
