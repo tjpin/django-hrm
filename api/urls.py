@@ -22,4 +22,3 @@ router.register(r'payrol', views.PayrollViewset)
 urlpatterns = [
     path('', include(router.urls)),
 ]
-
