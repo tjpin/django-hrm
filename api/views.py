@@ -1,6 +1,7 @@
 from rest_framework import (viewsets, permissions, authentication)
 from rest_framework.generics import GenericAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework import renderers
+from django.utils import timezone
 
 from .serializer import *
 from src.account.models import AccountUser
@@ -10,7 +11,7 @@ from src.office.attendance import Attendance
 from src.office.hrd import *
 
 
-class StaffViewset(RetrieveUpdateDestroyAPIView, viewsets.GenericViewSet):
+class StaffViewset(RetrieveUpdateDestroyAPIView, viewsets.ModelViewSet):
     queryset = Staff.objects.all().order_by('first_name')
     serializer_class = StaffSerializer
     renderer_classes = [renderers.JSONRenderer]
@@ -38,6 +39,13 @@ class DocumentViewset(viewsets.ModelViewSet):
 class DepartmentViewset(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
+
+
+class BirthdayViewset(viewsets.ModelViewSet):
+    queryset = Staff.objects.filter(dob=timezone.now().date())
+    serializer_class = BirthdaysSerializer
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = [authentication.BasicAuthentication, authentication.TokenAuthentication]
 

@@ -13,6 +13,7 @@ from src.office.models import Appointment
 from src.office.applications import LeaveApplication
 from src.record.models import Document, Transmital
 from src.recruitment.models import (Recruitment, Recruit, Application, Vacancy)
+from .models import StaffBirthday
 
 
 class GradeSerializer(serializers.ModelSerializer):
@@ -44,6 +45,7 @@ class TimetableSerializer(serializers.ModelSerializer):
         model = Timetable
         fields = "__all__"
 
+
 # *****************************************************
 
 
@@ -65,6 +67,13 @@ class StaffSerializer(serializers.ModelSerializer):
         model = Staff
         fields = "__all__"
         depth = 1
+
+
+class BirthdaysSerializer(serializers.ModelSerializer):
+    staff = StaffSerializer
+    class Meta:
+        model = StaffBirthday
+        fields = ("first_name", 'last_name', 'dob')
 
 
 class AttendanceSerializer(serializers.ModelSerializer):
